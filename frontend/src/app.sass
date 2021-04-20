@@ -1,0 +1,128 @@
+.container
+    max-width: 1300px
+.container-sm
+    max-width: 900px
+
+.header__search-form
+    display: none
+
+.header__content
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin-top: 15px
+    &__area-burger
+    .button-burger
+        display: flex
+        background-color: white
+        border: none
+        .icon-text
+            font-family: 
+            font-size: 1.2rem
+            margin: 9px 0 0 10px
+        .icon-burger
+            font-size: 35px
+    &__area-controls
+    .control-search
+        display: flex
+        align-items: center
+        .search-btn
+            background-color: white
+            border: none
+            margin-right: 15px
+            .icon-search
+                font-size: 25px
+            .icon-close
+                font-size: 25px
+    .control-profile
+        color: black
+        margin-right: 15px
+        .icon-user
+            font-size: 32px
+    .control-cart
+        color: black
+        margin-right: 15px
+        .icon-cart
+            font-size: 27px
+
+.carousel
+    display: flex
+    justify-content: center
+    align-items: center
+    margin-top: 40px
+    height: 430px
+
+.title
+    text-align: center
+    margin-top: 25px
+    
+.product__content
+    margin-top: 25px
+    margin-bottom: 50px
+    .card
+        margin: 15px
+        width: 164px
+        height: 256px
+        border: none
+        &__img
+            display: block
+            height: 164px
+            overflow: hidden
+            margin-bottom: 5px
+            img
+                display: block
+                max-width: 100%
+                height: 100%
+                object-fit: cover
+                transition: 0.5s all
+                &:hover
+                    transform: scale(1.05)
+                
+        &__title
+            height: 50px
+            &-text
+            font-size: 15px
+            display: -webkit-box
+            -webkit-line-clamp: 2
+            -webkit-box-orient: vertical
+            max-width: 200px
+            overflow: hidden
+            text-overflow: ellipsis
+
+        &__collection
+            display: flex
+            justify-content: space-between
+            align-items: flex-end
+            margin-top: 5px
+            &-price
+                font-weight: bold
+            &-cart
+                .button-cart
+                    background-color: #1C2339
+                    border: none
+                    width: 40px
+                    height: 35px
+                    transition: 0.3s all
+                    &:hover
+                        background-color: #283B54
+                .bi-cart-plus
+                    color: white
+                    font-size: 23px
+.descr
+    margin-top: 50px
+    text-align: center
+    &__i
+        font-size: 35px
+        margin-bottom: 15px
+    &__title
+        margin-bottom: 15px
+        h6
+            font-weight: bold
+    &__text
+        margin: 0 auto
+        width: 800px
+    &__dop
+        margin-top: 20px
+        a
+            color: black
+            text-decoration: underline
