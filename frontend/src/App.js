@@ -82,6 +82,14 @@ function App() {
               <div className="card__title">
                 <span className="card__title-text">{product.name}</span>
               </div>
+
+              <div className="card__raiting">
+                <span><i className="bi bi-star"></i></span>
+                <span><i className="bi bi-star"></i></span>
+                <span><i className="bi bi-star"></i></span>
+                <span><i className="bi bi-star"></i></span>
+                <span><i className="bi bi-star"></i></span>
+              </div>
     
               <div className="card__collection">
                 <div className="card__collection-price">
