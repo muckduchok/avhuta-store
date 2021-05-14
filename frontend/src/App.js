@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import CartScreen from './screens/CartScreen';
@@ -22,9 +22,15 @@ import ProductEditScreen from './screens/ProductEditScreen';
 import OrderListScreen from './screens/OrderListScreen';
 import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
+import SearchBox from './components/SearchBox';
+import SearchScreen from './screens/SearchScreen';
+import { listProductsCategory } from './actions/products';
+import LoadingBox from './components/LoadingBox';
+import MessageBox from './components/MessageBox';
 
 function App() {
-
+  const productCategoryList = useSelector((state) => state.categoryList);
+  const { loading: loadingCategories, error: errorCategories, categories } = productCategoryList;
   const cart = useSelector(state => state.cart);
   const { cartItems } = cart;
   const userSignin = useSelector((state) => state.userSignin);
@@ -32,7 +38,19 @@ function App() {
   const dispatch = useDispatch();
   const signoutDo = () => {
     dispatch(signout());
-  }
+  };
+  useEffect(() => {
+    dispatch(listProductsCategory());
+  }, [dispatch]);
+  const [search, setSearch] = useState(false);
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
+
+  const searchOpen = () => {
+    setSearch(true);
+  };
+  const searchClose = () => {
+    setSearch(false);
+  };
 
   return (
     <BrowserRouter>
@@ -41,27 +59,31 @@ function App() {
       <div className="header__content">
 
         <div className="header__area-burger">
-          <button type="button" className="button-burger">
+          <button onClick={() => setSidebarIsOpen(true)} type="button" className="button-burger open-sidebar">
             <span className="icon-burger"><i className="bi bi-list-nested"></i></span>
             <span className="icon-text">Меню</span>
           </button>
         </div>
-
-        <Link to="/"className="header__area-logo">
+        {!search ? (<Link to="/"className="header__area-logo">
           <span className="header__logo">
               <img src="https://static-sl.insales.ru/files/1/2933/14871413/original/Group_8.svg" alt="logo"></img>
           </span>
-        </Link>
+        </Link>) : ('')}
+        
+        {search ? (<Route render={({history}) =>
+            <SearchBox history={history}></SearchBox>}>
+          </Route>) : ('')}
 
         <div className="header__area-controls">
-
+    
           <div className="control-search">
-            <form action="/search" method="get" className="header__search-form">
-              <input type="text" autoComplete="off" className="form-control" placeholder="Поиск"></input>
-            </form>
+            
+          
             <button type="button" className="search-btn">
-              <span className="icon-search _show"><i className="bi bi-search"></i></span>
-              <span className="icon-close _hide"><i className="bi bi-x-circle(hide)"></i></span>
+              {!search ? (<span onClick={() => searchOpen()} className="icon-search _show"><i className="bi bi-search"></i></span>) : (
+                  <span onClick={() => searchClose()} className="icon-close _hide"><i className="bi bi-x-circle"></i></span>
+              
+              )}
             </button>
 
             {
@@ -96,7 +118,7 @@ function App() {
 
               {userInfo && userInfo.isAdmin && (
                 <div className="dropdown">
-                  <Link to="#admin">
+                  <div>
                     <span className="icon-admin">
                     <i className="bi bi-person-circle"></i> {' '}
                     <i className="bi bi-caret-down caret-admin"></i>
@@ -115,7 +137,7 @@ function App() {
                         <Link to="/orderlist">Заказы</Link>
                       </li>
                     </ul>
-                  </Link>
+                  </div>
                 </div>
               )}
 
@@ -131,6 +153,56 @@ function App() {
         </div>
       </div>
     </header>
+
+    <aside className={sidebarIsOpen ? 'open' : ''}>
+      <ul className="categories">
+        <li>
+          <strong>Каталог</strong>
+          
+          <button className="close-sidebar" type="button" onClick={() => setSidebarIsOpen(false)}><i className="bi bi-x-circle-fill"></i></button>
+        </li>
+        <hr/>
+        {loadingCategories ? (
+          <LoadingBox></LoadingBox>
+          ) : errorCategories ? (
+          <MessageBox variant="danger">{errorCategories}
+          </MessageBox>
+          ) : (
+            categories.map((c) => (
+              <li key={c}>
+                <Link to={`/search/category/${c}`} onClick={() => setSidebarIsOpen(false)}>{c}</Link>
+              </li>
+            ))
+        )}
+      </ul>
+      <hr/>
+      <ul>
+        <li>
+          <strong>Навигация</strong>
+        </li>
+        <li>
+          Все категории
+        </li>
+        <li>
+          О компании
+        </li>
+        <li>
+          Контакты
+        </li>
+        <li>
+          Доставка
+        </li>
+        <li>
+          Оплата
+        </li>
+      </ul>
+      <hr/>
+      <div className="contacts">
+        <h5>Контакты</h5>
+        <span>+380 66 817 3846</span>
+        <span>г.Сумы</span>
+      </div>
+    </aside>
     
     <PrivateRouter path="/products" component={ProductListScreen}></PrivateRouter>
     <PrivateRouter path="/profile" component={ProfileScreen}></PrivateRouter>
@@ -143,6 +215,11 @@ function App() {
     <Route path="/signin" component={SigninScreen}></Route>
     <Route path="/cart/:id?" component={CartScreen}></Route>
     <Route path="/product/:id" component={ProductScreen} exact></Route>
+    <Route path="/search/name/:name?" component={SearchScreen} exact></Route>
+    <Route path="/search/category/:category" component={SearchScreen} exact></Route>
+    <Route path="/search/category/:category/name/:name" component={SearchScreen} exact></Route>
+    <Route path="/search/category/:category/name/:name/min/:min/max/:max/raiting/:raiting/order/:order" component={SearchScreen} exact></Route>
+
     <AdminRouter path="/product/:id/edit" component={ProductEditScreen} exact></AdminRouter>
     <AdminRouter path="/orderlist" component={OrderListScreen}></AdminRouter>
     <AdminRouter path="/users" component={UserListScreen}></AdminRouter>

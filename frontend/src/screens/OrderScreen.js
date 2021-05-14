@@ -83,8 +83,9 @@ const OrderScreen = (props) => {
             sessionId: session.id
         });
 
+        // Тут может быть ошибка в будущем* (убрать message)
         if (result.error) {
-            console.log('Error');
+            console.log(message);
           }
     }
 

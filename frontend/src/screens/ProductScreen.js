@@ -83,7 +83,9 @@ function ProductScreen(props) {
                     }
                     </div>
                     <div className="product__actions-descr">
+                        <pre>
                         {product.descr}
+                        </pre>
                     </div>
                 </form>
 

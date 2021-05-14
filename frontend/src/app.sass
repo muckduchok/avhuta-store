@@ -1,10 +1,83 @@
 .container
     max-width: 1300px
 .container-sm
-    max-width: 900px
+    max-width: 950px
+.search-input
+    display: flex
+    justify-content: center
+    align-items: center
+    .search-flex
+        max-width: 1000px
+        .form-control
+            height: 48px
+            min-width: 500px
+            text-align: center
+        .searching
+            display: none
 
-.header__search-form
-    display: none
+.carousel-img
+    width: 100%
+    height: 100%
+    object-fit: cover
+
+.category-ul
+    padding: 1rem
+    list-style: none
+.category-li
+    display: flex
+    justify-content: space-between
+    padding: 3px 0 3px 0
+    a
+        color: black
+        border-bottom: 1px solid
+        &:hover
+            text-decoration: none
+            color: black
+
+aside
+    position: fixed
+    width: 450px
+    height: 100%
+    background-color: white
+    z-index: 1000
+    transform: translateX(-450px)
+    transition: 0.4s all
+    .contacts
+        display: flex
+        flex-direction: column
+        padding: 25px
+        h5
+            margin-bottom: 20px
+        span
+            font-size: 18px
+aside.open
+    transform: translateX(0)
+
+aside ul
+    padding: 25px
+    list-style: none
+aside li
+    display: flex
+    justify-content: space-between
+    padding: 5px 0 5px 0
+    font-size: 18px
+    strong
+        font-size: 20px
+        margin-top: 10px
+    a
+        color: black
+        border-bottom: 1px solid
+        border-bottom-right-radius: 4px
+        border-bottom-left-radius: 4px
+        &:hover
+            text-decoration: none
+            color: black
+.close-sidebar
+    border: none
+    background-color: white
+    width: 50px
+    .bi-x-circle-fill
+        font-size: 30px
 
 .icon-admin
     position: relative

@@ -1,7 +1,7 @@
 import React from 'react';
 
 function Raiting(props) {
-    const {raiting, numReviews} = props;
+    const {raiting, numReviews, caption} = props;
 
     return (
         <div className="card__raiting">
@@ -49,9 +49,7 @@ function Raiting(props) {
                 : 'bi bi-stal-half'
                 }
                 ></i></span>
-            <span>
-                {numReviews}
-            </span>
+            {caption ? (<span>{caption}</span>) : (<span> {numReviews} </span>)}
         </div>
     );
 }

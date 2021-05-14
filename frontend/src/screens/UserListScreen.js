@@ -22,10 +22,6 @@ const UserListScreen = (props) => {
             dispatch(deleteUser(user._id));
         }
     };
-
-    const editItem = (user) => {
-
-    };
     
     return (
         <div className="container">

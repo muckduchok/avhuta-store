@@ -42,17 +42,17 @@ const CarouselBox = () => {
       renderArrow={myArrow}
       easing="cubic-bezier(1,.15,.55,1.54)"
       tiltEasing="cubic-bezier(0.110, 1, 1.000, 0.210)"
-      transitionMs={700}
-      enableAutoPlay
-      autoPlaySpeed={10000}
+      // transitionMs={700}
+      // enableAutoPlay
+      // autoPlaySpeed={15000}
       itemsToShow={1}
       breakPoints={breakPoints} >
-        <Item>1</Item>
-        <Item>2</Item>
-        <Item>3</Item>
-        <Item>4</Item>
-        <Item>5</Item>
-        <Item>6</Item>
+        <Item><img className="carousel-img" src='https://www.roznica.com.ua/images/bt/bt21.jpg' alt="Hello"></img></Item>
+        <Item><img className="carousel-img" src='https://www.roznica.com.ua/images/bt/bt20.jpg' alt="Hello"></img></Item>
+        <Item><img className="carousel-img" src='https://www.roznica.com.ua/images/bt/bt25.jpg' alt="Hello"></img></Item>
+        <Item><img className="carousel-img" src='https://www.roznica.com.ua/images/bt/bt22.jpg' alt="Hello"></img></Item>
+        <Item><img className="carousel-img" src='https://www.roznica.com.ua/images/bt/bt23.jpg' alt="Hello"></img></Item>
+        <Item><img className="carousel-img" src='https://www.roznica.com.ua/images/bt/bt16.jpg' alt="Hello"></img></Item>
       </Carousel>
       </div>
     );
