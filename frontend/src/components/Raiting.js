@@ -9,8 +9,8 @@ function Raiting(props) {
                 raiting >= 1
                 ? "bi bi-star-fill"
                 : raiting >= 0.5
-                ? 'bi bi-star'
-                : 'bi bi-stal-half'
+                ? 'bi bi-stal-half'
+                : 'bi bi-star'
                 }
                 ></i></span>
 
@@ -18,8 +18,8 @@ function Raiting(props) {
                 raiting >= 2
                 ? "bi bi-star-fill"
                 : raiting >= 1.5
-                ? 'bi bi-star'
-                : 'bi bi-stal-half'
+                ? 'bi bi-stal-half'
+                : 'bi bi-star'
                 }
                 ></i></span>
 
@@ -27,8 +27,8 @@ function Raiting(props) {
                 raiting >= 3
                 ? "bi bi-star-fill"
                 : raiting >= 2.5
-                ? 'bi bi-star'
-                : 'bi bi-stal-half'
+                ? 'bi bi-stal-half'
+                : 'bi bi-star'
                 }
                 ></i></span>
 
@@ -36,8 +36,8 @@ function Raiting(props) {
                 raiting >= 4
                 ? "bi bi-star-fill"
                 : raiting >= 3.5
-                ? 'bi bi-star'
-                : 'bi bi-stal-half'
+                ? 'bi bi-stal-half'
+                : 'bi bi-star'
                 }
                 ></i></span>
 
@@ -45,8 +45,8 @@ function Raiting(props) {
                 raiting >= 5
                 ? "bi bi-star-fill"
                 : raiting >= 4.5
-                ? 'bi bi-star'
-                : 'bi bi-stal-half'
+                ? 'bi bi-stal-half'
+                : 'bi bi-star'
                 }
                 ></i></span>
             {caption ? (<span>{caption}</span>) : (<span> {numReviews} </span>)}

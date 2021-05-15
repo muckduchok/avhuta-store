@@ -5,6 +5,7 @@ import MessageBox from '../components/MessageBox';
 import { useDispatch, useSelector } from 'react-redux';
 import { listProducts } from '../actions/products';
 import CarouselBox from '../components/Carousel';
+import { Link } from 'react-router-dom';
 
 function HomeScreen(props) {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ function HomeScreen(props) {
             ))}
         </div>
           )}
+              <Link className="all-products" to="/search/name">Все товары</Link>
             <div className="descr container-sm">
               <div className="descr__i">
                 <i className="bi bi-shop"></i>

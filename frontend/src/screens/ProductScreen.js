@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { detailsProduct } from '../actions/products';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import Tabs from '../components/Tabs';
 
 function ProductScreen(props) {
     const dispatch = useDispatch();
@@ -20,7 +21,6 @@ function ProductScreen(props) {
     const addToCart = () => {
         props.history.push(`/cart/${productId}?qty=${qty}`)
     }
-
     return (
 
         <div className="product__content container-sm">
@@ -93,6 +93,9 @@ function ProductScreen(props) {
             </div>
         </div>
           )}
+          <div>
+            <Tabs></Tabs>
+          </div>
       </div>
     );
 }
