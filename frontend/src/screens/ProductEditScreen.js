@@ -16,6 +16,8 @@ const ProductEditScreen = (props) => {
     const [instock, setinstock] = useState('');
     const [brand, setBrand] = useState('');
     const [descr, setDescr] = useState('');
+    const [description, setDescription] = useState('');
+    const [characteristics, setСharacteristics] = useState('');
     const dispatch = useDispatch();
 
     const productDetails = useSelector((state) => state.productDetails);
@@ -41,6 +43,8 @@ const ProductEditScreen = (props) => {
             setinstock(product.instock);
             setBrand(product.brand);
             setDescr(product.descr);
+            setDescription(product.description);
+            setСharacteristics(product.characteristics);
         }
     }, [product, dispatch, productId, successUpdate, props.history ]);
 
@@ -51,7 +55,7 @@ const ProductEditScreen = (props) => {
         e.preventDefault();
 
         dispatch(updateProduct({_id: productId,
-        name, price, image, category, brand, countInStock, instock, descr}));
+        name, price, image, category, brand, countInStock, instock, descr, description, characteristics}));
     };
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo } = userSignin;
@@ -72,7 +76,6 @@ const ProductEditScreen = (props) => {
             setErrorUpload(error.message);
             setLoadingUpload(false);
         }
-
     };
 
     return (
@@ -185,7 +188,7 @@ const ProductEditScreen = (props) => {
                 </div>
 
                 <div className="signin__repass">
-                    <label className="signin__repass-label" htmlFor="descr">Описание</label>
+                    <label className="signin__repass-label" htmlFor="descr">Короткое описание</label>
                     <textarea
                      className="signin__repass-input"
                      id="descr"
@@ -194,6 +197,30 @@ const ProductEditScreen = (props) => {
                      value={descr}
                      required
                      onChange={(e) => setDescr(e.target.value)} >
+                    </textarea>
+                </div>
+
+                <div className="signin__repass">
+                    <label className="signin__repass-label" htmlFor="description">Полное описание</label>
+                    <textarea
+                     className="signin__repass-input"
+                     id="description"
+                     rows="10"
+                     type="text"
+                     value={description}
+                     onChange={(e) => setDescription(e.target.value)} >
+                    </textarea>
+                </div>
+
+                <div className="signin__repass">
+                    <label className="signin__repass-label" htmlFor="characteristics">Характеристики</label>
+                    <textarea
+                     className="signin__repass-input"
+                     id="characteristics"
+                     rows="10"
+                     type="text"
+                     value={characteristics}
+                     onChange={(e) => setСharacteristics(e.target.value)} >
                     </textarea>
                 </div>
 

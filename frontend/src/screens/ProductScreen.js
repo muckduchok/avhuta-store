@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { detailsProduct } from '../actions/products';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import Tabs from '../components/Tabs';
+import SimpleTabs from '../components/Tabs';
 
 function ProductScreen(props) {
     const dispatch = useDispatch();
@@ -94,7 +94,9 @@ function ProductScreen(props) {
         </div>
           )}
           <div>
-            <Tabs></Tabs>
+          
+           <SimpleTabs {...props}></SimpleTabs>
+          
           </div>
       </div>
     );

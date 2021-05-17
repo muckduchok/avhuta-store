@@ -21,7 +21,7 @@ function HomeScreen(props) {
           <CarouselBox></CarouselBox>
         <div className="product__content container-sm">
           <div className="title">
-            <h2>Все товары</h2>
+            <h2>Популярное</h2>
           </div>
           {loading ? (
             <LoadingBox></LoadingBox>

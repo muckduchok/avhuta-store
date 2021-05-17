@@ -22,7 +22,7 @@ export default function Product(props) {
 
         <div className="card__collection">
             <div className="card__collection-price">
-            <span className="card__collection-price-text">{product.price} $</span>
+            <span className="card__collection-price-text">{product.price} грн</span>
             </div>
             <div className="card__collection-cart">
             <button className="button-cart">

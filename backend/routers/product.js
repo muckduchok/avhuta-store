@@ -47,16 +47,18 @@ productRouter.get('/:id', expressAsyncHandler( async (req, res) => {
 
 productRouter.post('/', isAuth, isAdmin, expressAsyncHandler (async (req, res) => {
     const product = new Product({
-      name: 'sample name ' + Date.now(),
+      name: 'Введите заголовок ' + Date.now(),
       image: 'https://www.roznica.com.ua/rf/th/400x320/69/804798.jpg',
       price: 0,
-      category: 'sample category',
-      brand: 'sample brand',
+      category: 'Категория',
+      brand: 'Брэнд',
       countInStock: 0,
       instock: true,
       raiting: 3,
       numReviews: 0,
-      descr: 'sample description',
+      descr: 'Короткое описание',
+      description: 'Полное описание',
+      characteristics: 'Введите характеристики'
     });
     const createdProduct = await product.save();
     res.send({message: 'Продукт создан', product: createdProduct});
@@ -74,6 +76,8 @@ productRouter.put('/:id', isAuth, isAdmin, expressAsyncHandler (async (req, res)
         product.countInStock = req.body.countInStock;
         product.instock = req.body.instock;
         product.descr = req.body.descr;
+        product.description = req.body.description;
+        product.characteristics = req.body.characteristics;
         const updatedProduct = await product.save();
         
         res.send({message: 'Товар обновлен', product: updatedProduct});
@@ -89,6 +93,28 @@ productRouter.delete('/:id', isAuth, isAdmin, expressAsyncHandler (async (req, r
         res.send({message: 'Товар удален', product: deleteProduct});
     } else {
         res.status(404).send({message: 'Товар не найден'});
+    }
+}));
+
+productRouter.post('/:id/reviews', isAuth, expressAsyncHandler (async (req, res) => {
+    const productId = req.params.id;
+    const product = await Product.findById(productId);
+    if (product) {
+        if (product.reviews.find((x) => x.name === req.user.name)) {
+            return res.status(400).send({message: 'Вы уже прокоментировали'});
+        }
+        const review = {
+            name: req.user.name,
+            raiting: Number(req.body.raiting),
+            comment: req.body.comment};
+        product.reviews.push(review);
+        product.numReviews = product.reviews.length;
+        product.raiting = product.reviews.reduce((a, c) => c.raiting + a, 0) / product.reviews.length;
+        const updatedProduct = await product.save();
+        
+        res.status(201).send({message: 'Комментарий создан', review: updatedProduct.reviews[updatedProduct.reviews.length - 1]});
+    } else {
+        res.status(404).send({message: "Товара не найдено"});
     }
 }));
 
