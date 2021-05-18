@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react';
+import React, { useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -16,6 +16,8 @@ const SearchScreen = (props) => {
     const { loading, error, products } = productList;
     const productCategoryList = useSelector((state) => state.categoryList);
     const { loading: loadingCategories, error: errorCategories, categories } = productCategoryList;
+
+    const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
 
     useEffect(() => {
         dispatch(listProducts({
@@ -39,45 +41,56 @@ const SearchScreen = (props) => {
     };
 
     return (
-        <div className="container search">
+        <div className="search">
             {loading ? (<LoadingBox></LoadingBox>)
             : error ? <MessageBox variant="danger">{error}</MessageBox>
-            : <div> Найдено ={products.length} </div>
-            }
-                <div>
-                  Фильтровать по { ' '}
+            : <div className="container-sm filter">
+                <button onClick={() => setSidebarIsOpen(true)} type="button" className="filter-button">
+                  <span className="icon-burger"><i className="bi bi-sliders"></i></span>
+                  Фильтры
+                </button>
+
+                <div className="filter-sort">
+                  Сортировка <i className="bi bi-filter"></i>
                   <select
+                  value={order}
                   onChange={(e) => {
                       props.history.push(getFilterUrl({order: e.target.value})) }}
-                  value={order}>
-                    <option value="newest"> Новые </option>
-                    <option value="lowest"> От дешевых до дорогих </option>
-                    <option value="highest"> От дорогих до дешевых </option>
-                    <option value="toprated"> По рейтингу </option>
+                  className="form-select filter-select" aria-label="Default select example">
+                    <option value="newest">По новым</option>
+                    <option value="lowest">По возростанию цены</option>
+                    <option value="highest">По убыванию цены</option>
+                    <option value="toprated"> По рейтингу</option>
                   </select>
                 </div>
-                <div className="row product__content">
-                    <div className="col-md-2">
-                        <h3>Категории</h3>
-                      <div>
+              </div>
+            }
+              
+                <aside className={sidebarIsOpen ? 'open' : ''}>
+                  <ul>
+                    <li>
+                    <h3>Категории</h3>
+                    <button className="close-sidebar" type="button" onClick={() => setSidebarIsOpen(false)}><i className="bi bi-x-circle-fill"></i></button>
+                    </li>
+                      <li>
                         {loadingCategories ? (
                         <LoadingBox></LoadingBox>
                         ) : errorCategories ? (
                         <MessageBox variant="danger">{errorCategories}
                         </MessageBox>
                         ) : (
-                          <ul className="category-ul">
-                            <li className="category-li">
+                          <div className="categoriess">
+                            <div>
                             <Link className={'all' === category ? 'active' : ''} to={getFilterUrl({category: 'all'})}>Все</Link>
-                            </li>
+                            </div>
                                {categories.map((cat) => (
-                                   <li className="category-li" key={cat}>
+                                   <div className="category-li" key={cat}>
                                     <Link className={cat === category ? 'active' : ''} to={getFilterUrl({category: cat})}>{cat}</Link>
-                                   </li>
+                                   </div>
                                ))}
-                          </ul>
+                          </div>
                         )}
-                      </div>
+                      </li>
                       <div>
                         <h3>Цена</h3>
                         <ul>
@@ -106,30 +119,31 @@ const SearchScreen = (props) => {
                           ))}
                         </ul>
                       </div>
-                    </div>
+                      </ul>
+                </aside>
+                <div className="container-sm">
+                <div className="row product__content">
 
-                    <div className="col-sm-9">
+                    <div className="col">
                     {loading ? (
                     <LoadingBox></LoadingBox>
                     ) : error ? (
                     <MessageBox variant="danger">{error}</MessageBox>
                     ) : (
                         <div>
-                            {loading ? (
-            <LoadingBox></LoadingBox>
-          ) : error ? (
-            <MessageBox>{error}</MessageBox>
-          ) : (
-            <div className="row">
-          {
-            products.map(product => (
-              <Product key={product._id} product={product} />
-            ))}
-        </div>
-          )}
+                            {loading ? (<LoadingBox></LoadingBox>
+                            ) : error ? (<MessageBox>{error}</MessageBox>
+                            ) : (
+                            <div className="row">
+                              {products.map(product => (
+                                  <Product {...props} key={product._id} product={product} />
+                                ))}
+                            </div>
+                               )}
                         </div>
                     )}
                     </div>
+                </div>
                 </div>
         </div>
     );

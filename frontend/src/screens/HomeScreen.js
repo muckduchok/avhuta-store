@@ -31,7 +31,7 @@ function HomeScreen(props) {
             <div className="row">
           {
             products.map(product => (
-              <Product key={product._id} product={product} />
+              <Product {...props} key={product._id} product={product} />
             ))}
         </div>
           )}

@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { response } from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Order from '../models/order.js';
 import { isAuth, isAdmin } from '../utils.js';
@@ -64,7 +64,6 @@ orderRouter.post('/create-checkout-session', async (req, res) => {
         id: session.id
     });
 });
-
 
 orderRouter.put('/:id/pay', isAuth, expressAsyncHandler( async (req, res) => {
     const order = await Order.findById(req.params.id);

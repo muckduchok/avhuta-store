@@ -21,6 +21,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.5",
     "multer": "^1.4.2",
+    "novaposhta": "^1.1.1",
     "slate-history": "^0.62.0",
     "stripe": "^8.145.0"
   },

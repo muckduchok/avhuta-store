@@ -169,7 +169,7 @@ function App() {
           </MessageBox>
           ) : (
             categories.map((c) => (
-              <li key={c}>
+              <li className="categories-li" key={c}>
                 <Link to={`/search/category/${c}`} onClick={() => setSidebarIsOpen(false)}>{c}</Link>
               </li>
             ))

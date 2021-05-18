@@ -2,6 +2,8 @@
     max-width: 1300px
 .container-sm
     max-width: 950px
+.container-margin
+    margin: 0 auto
 .search-input
     display: flex
     justify-content: center
@@ -14,6 +16,9 @@
             text-align: center
         .searching
             display: none
+
+select
+    display: hidden
 
 .carousel-img
     width: 100%
@@ -77,6 +82,30 @@ pre
     &:hover
         color: black
 
+.filter
+    display: flex
+    justify-content: space-between
+    margin-top: 20px
+    &-button
+        border: none
+        background-color: white
+        font-size: 20px
+        &:hover
+            border-bottom: 1px solid
+        span
+            margin-right: 10px
+    &-sort
+        display: flex
+        align-items: center
+        font-size: 19px
+        i
+            margin-left: 5px
+            font-size: 25px
+    &-select
+        width: 20px
+
+.categoriess
+    margin: 0 0 10px 20px
 aside
     position: fixed
     width: 450px
@@ -95,6 +124,9 @@ aside
             font-size: 18px
 aside.open
     transform: translateX(0)
+.categories-li
+    a
+        border-bottom: 1px solid
 
 aside ul
     padding: 25px
@@ -109,10 +141,8 @@ aside li
         margin-top: 10px
     a
         color: black
-        border-bottom: 1px solid
-        border-bottom-right-radius: 4px
-        border-bottom-left-radius: 4px
         &:hover
+            transform: scale(1.15)
             text-decoration: none
             color: black
 .close-sidebar

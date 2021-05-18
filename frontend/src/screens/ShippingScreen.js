@@ -48,11 +48,11 @@ const ShippingScreen = (props) => {
                     </div>
 
                 <div className="signin__name">
-                    <label className="signin__name-label" htmlFor="country">Страна</label>
+                    <label className="signin__name-label" htmlFor="phone">Номер телефона</label>
                     <input
                     className="signin__name-input"
-                    id="country"
-                    type="text"
+                    id="phone"
+                    type="phone"
                     required
                     value={country}
                     onChange={(e) => setCountry(e.target.value)} >
@@ -72,10 +72,10 @@ const ShippingScreen = (props) => {
                 </div>
 
                 <div className="signin__pass">
-                    <label className="signin__pass-label" htmlFor="address">Адресс</label>
+                    <label className="signin__pass-label" htmlFor="text">Адресс новой почты</label>
                     <input 
                      className="signin__pass-input"
-                     id="address"
+                     id="text"
                      type="text"
                      required
                      value={address}

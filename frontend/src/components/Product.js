@@ -4,6 +4,9 @@ import Raiting from './Raiting';
 
 export default function Product(props) {
     const {product} = props;
+    const addToCart = () => {
+        props.history.push(`/cart/${product._id}`);
+    }
 
     return (
         <div key={product._id} className="col col-md-3">
@@ -25,7 +28,7 @@ export default function Product(props) {
             <span className="card__collection-price-text">{product.price} грн</span>
             </div>
             <div className="card__collection-cart">
-            <button className="button-cart">
+            <button type="submit" onClick={addToCart} className="button-cart">
                 <i className="bi bi-cart-plus" />
             </button>
             </div>
