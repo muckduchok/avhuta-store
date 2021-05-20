@@ -266,6 +266,15 @@ aside li
 .title
     text-align: center
     margin-top: 25px
+
+.alert
+    width: 140px
+
+.collection
+    .collection-strong
+        font-size: 22px
+    span
+        font-size: 20px
     
 .product__content
     margin-top: 25px
@@ -430,7 +439,7 @@ aside li
         &-name
             width: 240px
             margin-right: 40px
-            font-size: 20px
+            font-size: 18px
 
         &-counter
             select
@@ -438,13 +447,22 @@ aside li
                 height: 40px
                 padding: 5px
         &-price
-            font-size: 20px
-            font-weight: bold
+            font-size: 18px
         &-delete
             margin-right: 10px
             span
                 font-size: 20px
-    
+        &-itogo
+            display: flex
+            justify-content: space-between
+            .total
+                font-size: 24px
+            .price
+                font-size: 22px
+                font-weight: bold
+                margin-bottom: 20px
+            .button-submit
+                width: 100px
 
     &__final
         width: 400px
@@ -527,7 +545,8 @@ aside li
         .button-submit
             min-width: 80px
             max-width: 185px
-            height: 40px
+            min-height: 40px
+            max-height: 60px
             background-color: #1C2339
             border: none
             color: white
@@ -589,3 +608,27 @@ h2
             width: 80px
         &-img2
             width: 60px
+
+.orders
+    .title
+        font-size: 27px
+        color: #333333
+    .strongs
+        margin-left: 10px
+        font-size: 15px
+    &__items
+        display: flex
+        flex-direction: column
+        &-item
+            display: flex
+            span
+                color: #74747474
+                margin-right: 10px
+                font-size: 18px
+            p
+                display: flex
+                text-align: center
+                font-size: 17px
+        &-title
+            font-size: 27px
+            margin: 15px 0 15px 0

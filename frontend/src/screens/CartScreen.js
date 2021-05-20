@@ -62,7 +62,7 @@ const CartScreen = (props) => {
                                     </select>
                                 </div>
                                 <div className="cart__items-price">
-                                    <span>{item.price}$</span>
+                                    <span>{item.price} грн</span>
                                 </div>
                                 <div className="cart__items-delete">
                                     <span type="button" onClick={() => removeFromCartAction(item.product)}><i className="bi bi-trash"></i></span>
@@ -80,7 +80,7 @@ const CartScreen = (props) => {
                             Товары ({cartItems.reduce((a, c) => a + c.qty, 0)})
                         </span>
                         <span className="cart__final-products-price">
-                        {cartItems.reduce((a, c) => a + c.price * c.qty, 0)} $
+                        {cartItems.reduce((a, c) => a + c.price * c.qty, 0)} грн
                         </span>
                     </div>
                     <div className="cart__final-total">
@@ -91,12 +91,12 @@ const CartScreen = (props) => {
                             }
                         </span>
                         <span className="cart__final-total-price">
-                        {cartItems.reduce((a, c) => a + c.price * c.qty, 0)} $
+                        {cartItems.reduce((a, c) => a + c.price * c.qty, 0)} грн
                         </span>
                     </div>
 
                     <div className="cart__final-button">
-                        <button onClick={checkout} disabled={cartItems.length === 0} >Купить</button>
+                        <button onClick={checkout} disabled={cartItems.length === 0} ><strong>Купить</strong></button>
                     </div>
                 </div>
             </div>

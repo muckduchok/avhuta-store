@@ -35,7 +35,6 @@ const PaymentScreen = (props) => {
                     value="Stripe"
                     id="stripe"
                     required
-                    checked
                     onChange={(e) => setPaymentMethod(e.target.value)}></input>
 
                 <label className="form-check-label" htmlFor="stripe">

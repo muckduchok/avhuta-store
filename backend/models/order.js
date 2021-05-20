@@ -15,6 +15,7 @@ const orderSchema = new mongoose.Schema({
         city: {type: String, required: true},
         address: {type: String, required: true},
         postalCode: {type: String, required: true},
+        email: {type: String}
     },
     paymentResult: {id: String, status: String, update_time: String, email_address: String},
     paymentMethod: {type: String, required: true},

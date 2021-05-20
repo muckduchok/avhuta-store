@@ -27,11 +27,11 @@ const PlaceOrderScreen = (props) => {
     };
 
     useEffect(() => {
-        if (success) {
-            props.history.push(`/order/${order._id}`);
+        if (success && cart.paymentMethod) {
+            props.history.push(`/order/${order._id}/${cart.paymentMethod}`);
             dispatch({ type: ORDER_CREATE_RESET });
         }
-    }, [dispatch, order, props.history, success]);
+    }, [dispatch, order, props.history, success, cart.paymentMethod]);
 
     return (
         <div className="container">
@@ -39,25 +39,18 @@ const PlaceOrderScreen = (props) => {
 
             <CheckoutSteps step1 step2 step3 step4/>
             <div className="row">
-                <div className="col">
+                <div className="col-md-6">
                     <div className="collection">
-                        <p>
-                            <strong>Имя:</strong> {cart.shippingAddress.fullName} <br />
-                            <strong>Город:</strong> {cart.shippingAddress.city} <br />
-                            <strong>Адресс:</strong> {cart.shippingAddress.address}
+                        <p className="collection-p">
+                            <strong className="collection-strong">Имя:</strong><span> {cart.shippingAddress.fullName}</span> <br />
+                            <strong className="collection-strong">Город:</strong> <span> {cart.shippingAddress.city}</span> <br />
+                            <strong className="collection-strong">Адресс:</strong> <span> {cart.shippingAddress.address}</span> <br/>
+                            <strong className="collection-strong">Номер:</strong> <span> {cart.shippingAddress.country}</span> <br/>
+                            <strong className="collection-strong">Оплата:</strong> <span> {cart.paymentMethod}</span>
                         </p>
                     </div>
-                        <div className="signin__button">
-                            <label />
-                            <button type="button" onClick={placeOrderDo} disabled={cart.cartItems.length === 0} className="button-submit">
-                                Продолжить
-                            </button>
-                        </div>
-
-                        { loading && <LoadingBox></LoadingBox> }
-                        { error && <MessageBox variant="danger">{error}</MessageBox>}
                 </div>
-                <div className="col">
+                <div className="col-md-6">
                     {
                         cart.cartItems.map((item) => (
                             <div key={item.product} className="cart__items">
@@ -68,16 +61,25 @@ const PlaceOrderScreen = (props) => {
                                 <span>{item.name}</span>
                             </div>
                             <div className="cart__items-price">
-                                <span>{item.qty} x ${item.price} = ${item.qty * item.price}</span>
+                            <span>{item.qty}x <strong>{item.qty * item.price} грн</strong></span>
                             </div>
                         </div>
                         ))
                     }
                     <hr />
-                    <div>
+                    <div className="cart__items-itogo">
                         <span className="total">Итого: </span>
-                        <span className="price">{cart.itemsPrice}$</span>  
+                        <span className="price">{cart.itemsPrice} грн</span>  
                     </div>
+                    <div className="signin__button">
+                            <label />
+                            <button type="button" onClick={placeOrderDo} disabled={cart.cartItems.length === 0} className="button-submit">
+                                Продолжить
+                            </button>
+                        </div>
+
+                        { loading && <LoadingBox></LoadingBox> }
+                        { error && <MessageBox variant="danger">{error}</MessageBox>}
                 </div>
             </div>
         </div>

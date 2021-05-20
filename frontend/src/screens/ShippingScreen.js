@@ -14,6 +14,7 @@ const ShippingScreen = (props) => {
     const [city, setCity] = useState(shippingAddress.city);
     const [address, setAddress] = useState(shippingAddress.address);
     const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
+    const [email, setEmail] = useState(shippingAddress.email);
     const dispatch = useDispatch();
 
     if(!userInfo) {
@@ -23,7 +24,7 @@ const ShippingScreen = (props) => {
     const submitDo = (e) => {
         e.preventDefault();
 
-        dispatch(saveShippingAddress({fullName, address, postalCode, country, city}));
+        dispatch(saveShippingAddress({fullName, address, postalCode, country, city, email}));
 
         props.history.push('/payment');
     }
@@ -45,7 +46,18 @@ const ShippingScreen = (props) => {
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)} >
                         </input>
-                    </div>
+                </div>
+
+                <div className="signin__name">
+                        <label className="signin__name-label" htmlFor="Email">Email</label>
+                        <input
+                        className="signin__name-input"
+                        id="email"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)} >
+                        </input>
+                </div>
 
                 <div className="signin__name">
                     <label className="signin__name-label" htmlFor="phone">Номер телефона</label>

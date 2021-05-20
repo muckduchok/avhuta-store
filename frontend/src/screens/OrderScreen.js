@@ -63,7 +63,7 @@ const OrderScreen = (props) => {
     
     const [message, setMessage] = useState("");
 
-    const handleClick = async () => {
+    const handleClickStripe = async () => {
         const stripe = await stripePromise;
 
         const response = await fetch('/api/orders/create-checkout-session', {
@@ -88,79 +88,173 @@ const OrderScreen = (props) => {
             console.log(message);
           }
     }
+    const handleClickPaypal = () => {
+        console.log('Здесь будет оплата с помощью LiqPay');
+    }
 
     return loading ? (<LoadingBox></LoadingBox>) :
     error ? (<MessageBox variant="danger">{error}</MessageBox>)
     :
     (
-        <div className="container">
-            <h2>Заказ: {order._id}</h2>
-            <div className="row">
-                <div className="col">
-                    <div className="collection">
-                        <p>
-                            <strong>Имя:</strong> {order.shippingAddress.fullName} <br />
-                            <strong>Город:</strong> {order.shippingAddress.city} <br />
-                            <strong>Адресс:</strong> {order.shippingAddress.address}
-                        </p>
-                    </div>
-                    {order.isPaid ? (
-                  <MessageBox variant="success">
-                    Paid at {order.paidAt}
-                  </MessageBox>
-                ) : (
-                  <MessageBox variant="danger">Not Paid</MessageBox>
-                )}
+        <div className="container orders">
+            <h3>Заказ № {order._id}</h3>
+            <br/>
+            <span className="title">Информация о заказе</span>
+            <hr/>
+            <div className="orders__items">
+                <div className="orders__items-item">
+                    <span>Дата оформления: </span>
+                    <p>{order.createdAt}</p>
                 </div>
-
-                <div className="col">
-                    {
-                        order.orderItems.map((item) => (
-                            <div key={item.product} className="cart__items">
-                                <div className="cart__items-img">
-                                    <img src={item.image} alt={item.name}></img>
-                                </div>
-                            <div className="cart__items-name">
-                                <span>{item.name}</span>
-                            </div>
-                            <div className="cart__items-price">
-                                <span>{item.qty} x ${item.price} = ${item.qty * item.price}</span>
-                            </div>
-                        </div>
-                        ))
-                    }
-                    <hr />
-                    <div>
-                        <span className="total"><strong>Итого: </strong></span>
-                        <span className="price">{order.itemsPrice} $</span>
-
-                        {!order.isPaid && (
-                                <div>
-                                    {!sdkReady ? (
-                                        <LoadingBox></LoadingBox>
-                                    ) : (
-                                        <>
-                                        {errorPay && (<MessageBox variant="danger">{error}</MessageBox> )}
-                                        {loadingPay && <LoadingBox></LoadingBox>}
-
-                                        <div className="signin__button form__button">
-                                            <button
-                                                role="link"
-                                                className="button-submit payment-button"
-                                                type="button"
-                                                onClick={handleClick}
-                                                >
-                                                    Оплатить
-                                            </button>
-                                        </div>
-                                        </>
-                                    )}
-                                </div>
-                            )}
-                    </div>
+                <div className="orders__items-item">
+                    <span>Сумма и статус: </span>
+                    <p>{order.itemsPrice} грн
+                    <strong className="strongs">
+                    {order.isPaid ? (
+                   <MessageBox className="messagebox" variant="success">
+                     Оплачено
+                   </MessageBox>
+                 ) : (
+                   <MessageBox className="messagebox" variant="danger">Не оплачено</MessageBox>
+                 )}
+                    </strong>
+                    </p>
+                </div>
+                <div className="orders__items-item">
+                    <span>Способ оплаты: </span>
+                    <p>{order.paymentMethod}</p>
+                </div>
+                <div className="orders__items-item">
+                    <span>Город доставки: </span>
+                    <p>{order.shippingAddress.city}</p>
+                </div>
+                <div className="orders__items-item">
+                    <span>Адресс доставки: </span>
+                    <p>{order.shippingAddress.address}</p>
+                </div>
+                <div className="orders__items-item">
+                    <span>Получатель: </span>
+                    <p>{order.shippingAddress.fullName}</p>
+                </div>
+                <div className="orders__items-item">
+                    <span>Номер телефона: </span>
+                    <p>{order.shippingAddress.country}</p>
+                </div>
+                <div className="orders__items-item">
+                    <span>Email: </span>
+                    <p>{order.shippingAddress.email}</p>
                 </div>
             </div>
+            <hr/>
+            <div className="orders__items">
+                <span className="orders__items-title">Состав заказа</span>
+                <div className="orders__items-table">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                        <th scope="col">Наименование</th>
+                        <th scope="col">Кол-во</th>
+                        <th scope="col">Стоимость</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {order.orderItems.map((item) => (
+                        <tr>
+                            <td>{item.name}</td>
+                            <td>{item.qty}</td>
+                            <td>{item.price} <strong>грн</strong></td>
+                        </tr>
+                        ))}
+                        <tr>
+                            <td>Итого: <strong>{order.itemsPrice} грн</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+                {!order.isPaid && (
+                    <div>
+                        {!sdkReady ? (
+                            <LoadingBox></LoadingBox>
+                        ) : (
+                            <>
+                            {errorPay && (<MessageBox variant="danger">{errorPay}</MessageBox> )}
+                            {loadingPay && <LoadingBox></LoadingBox>}
+                                
+                            {order.paymentMethod === 'Stripe' ? (
+                                <div className="signin__button form__button">
+                                <button
+                                    role="link"
+                                    className="button-submit payment-button"
+                                    type="button"
+                                    onClick={handleClickStripe} >
+                                        Оплатить с помощью Stripe
+                                </button>
+                            </div>
+                            ) : (
+                                <div className="signin__button form__button">
+                                <button
+                                    role="link"
+                                    className="button-submit payment-button"
+                                    type="button"
+                                    onClick={handleClickPaypal} >
+                                        Оплатить с помощью Paypal
+                                </button>
+                            </div>
+                            )}
+                            </>
+                        )}
+                    </div>
+                )}
+            </div>
         </div>
+
+        // <div className="container">
+        //     <h2>Заказ: {order._id}</h2>
+        //     <div className="row">
+        //         <div className="col">
+        //             <div className="collection">
+        //                 <p className="collection-p">
+        //                     <strong className="collection-strong">Имя:</strong><span> {order.shippingAddress.fullName}</span> <br />
+        //                     <strong className="collection-strong">Город:</strong> <span> {order.shippingAddress.city}</span> <br />
+        //                     <strong className="collection-strong">Адресс:</strong> <span> {order.shippingAddress.address}</span> <br/>
+        //                     <strong className="collection-strong">Номер:</strong> <span> {order.shippingAddress.country}</span> <br/>
+        //                     <strong className="collection-strong">Оплата:</strong> <span> {order.paymentMethod}</span>
+        //                 </p>
+        //             </div>
+        //             {order.isPaid ? (
+        //           <MessageBox variant="success">
+        //             Paid at {order.paidAt}
+        //           </MessageBox>
+        //         ) : (
+        //           <MessageBox variant="danger">Не оплачено</MessageBox>
+        //         )}
+        //         </div>
+
+        //         <div className="col">
+        //             {
+        //                 order.orderItems.map((item) => (
+        //                     <div key={item.product} className="cart__items">
+        //                         <div className="cart__items-img">
+        //                             <img src={item.image} alt={item.name}></img>
+        //                         </div>
+        //                     <div className="cart__items-name">
+        //                         <span>{item.name}</span>
+        //                     </div>
+        //                     <div className="cart__items-price">
+        //                         <span>{item.qty}x <strong>{item.qty * item.price} грн</strong></span>
+        //                     </div>
+        //                 </div>
+        //                 ))
+        //             }
+        //             <hr />
+        //             <div className="cart__items-itogo">
+        //                 <span className="total">Итого: </span>
+        //                 <span className="price">{order.itemsPrice} грн</span> 
+        //             </div>
+                        
+        //             </div>
+        //     </div>
+        // </div>
     );
 };
 
