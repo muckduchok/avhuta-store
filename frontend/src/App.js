@@ -30,6 +30,7 @@ import MessageBox from './components/MessageBox';
 import ShippingInfo from './screens/info/ShippingInfo';
 import PayInfo from './screens/info/PayInfo';
 import ContactsInfo from './screens/info/ContactsInfo';
+import CompanyInfo from './screens/info/CompanyInfo';
 
 function App() {
   const productCategoryList = useSelector((state) => state.categoryList);
@@ -184,19 +185,19 @@ function App() {
           <strong className="popravka">Навигация</strong>
         </li>
         <li>
-        <Link to="/search/name">Все категории</Link>
+        <Link to="/search/name" onClick={() => setSidebarIsOpen(false)}>Все категории</Link>
         </li>
         <li>
-        <Link to="/company-info">О компании</Link>
+        <Link to="/company-info" onClick={() => setSidebarIsOpen(false)}>О компании</Link>
         </li>
         <li>
-        <Link to="/contacts-info">Контакты</Link>
+        <Link to="/contacts-info" onClick={() => setSidebarIsOpen(false)}>Контакты</Link>
         </li>
         <li>
-          <Link to="/shipping-info">Доставка</Link>
+          <Link to="/shipping-info" onClick={() => setSidebarIsOpen(false)}>Доставка</Link>
         </li>
         <li>
-        <Link to="/pay-info">Оплата</Link>
+        <Link to="/pay-info" onClick={() => setSidebarIsOpen(false)}>Оплата</Link>
         </li>
       </ul>
       <hr/>
@@ -212,7 +213,7 @@ function App() {
     <Route path="/shipping-info" component={ShippingInfo}></Route>
     <Route path="/pay-info" component={PayInfo}></Route>
     <Route path="/contacts-info" component={ContactsInfo}></Route>
-    <Route path="/company-info"></Route>
+    <Route path="/company-info" component={CompanyInfo}></Route>
 
     <Route path="/profile" component={ProfileScreen}></Route>
     <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
