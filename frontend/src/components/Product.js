@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Raiting from './Raiting';
 
 export default function Product(props) {
-    const {product} = props;
+    const { product } = props;
     const addToCart = () => {
         props.history.push(`/cart/${product._id}`);
     }

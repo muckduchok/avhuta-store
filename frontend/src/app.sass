@@ -44,7 +44,7 @@ select
 
 .comments__li
     list-style-type: none
-    border: 1px solid
+    border-bottom: 1px solid
     padding: 10px
     margin-bottom: 10px
 
@@ -107,17 +107,22 @@ pre
 .categoriess
     margin: 0 0 10px 20px
 aside
-    position: fixed
+    position: absolute
     width: 450px
-    height: 100%
+    min-height: 100%
+    max-height: 1200px
     background-color: white
     z-index: 1000
     transform: translateX(-450px)
     transition: 0.4s all
+    border: 1px solid
     .contacts
         display: flex
         flex-direction: column
         padding: 25px
+        .phone
+            color: black
+            font-size: 18px
         h5
             margin-bottom: 20px
         span
@@ -127,6 +132,9 @@ aside.open
 .categories-li
     a
         border-bottom: 1px solid
+
+.popravka
+    margin: 0
 
 aside ul
     padding: 25px
@@ -235,7 +243,7 @@ aside li
     display: none
     min-width: 50px
     padding: 10px
-    background-color: #0000003b
+    background-color: #0000008a
     z-index: 1
     margin: 0
     border-radius: 5px
@@ -243,7 +251,7 @@ aside li
         list-style-type: none
         margin: 5px
     a
-        color: black
+        color: white
         letter-spacing: 1px
 .dropdown:hover .dropdown-content
     display: block
@@ -267,8 +275,9 @@ aside li
     text-align: center
     margin-top: 25px
 
-.alert
-    width: 140px
+
+.orders
+    margin-bottom: 75px
 
 .collection
     .collection-strong
@@ -632,3 +641,66 @@ h2
         &-title
             font-size: 27px
             margin: 15px 0 15px 0
+
+.shipping
+    &__title
+        display: flex
+        align-items: center
+        justify-content: stretch
+        margin: 10px 0 20px 0
+        &-h3
+            margin-left: 15px
+            font-size: 26px
+    &__text
+        &-er
+            font-size: 28px
+    li
+           color: yellow
+    span
+            color: black
+    &__button
+        background-color: #283B54
+        border: none
+        width: 100px
+        height: 40px
+        &:hover
+            background-color: #1C2339
+        a
+            color: white
+            text-decoration: none
+
+.contactss
+    display: flex
+    justify-content: flex-start
+    align-items: center
+    &__div
+        color: black
+        display: flex
+        flex-direction: column
+        &-city
+            display: flex
+            flex-direction: row
+            align-items: center
+            margin-bottom: 30px
+        .city-icon
+            display: flex
+            align-items: center
+            justify-content: center
+            width: 80px
+            height: 80px
+            background-color: #283B54
+            border-radius: 100%
+            margin-right: 20px
+            i
+                font-size: 30px
+                color: white
+        &-phone
+            display: flex
+            flex-direction: row
+            align-items: center
+            margin-bottom: 30px
+        &-email
+            display: flex
+            flex-direction: row
+            align-items: center
+        

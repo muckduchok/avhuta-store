@@ -31,42 +31,18 @@ const SearchScreen = (props) => {
     }, [dispatch, name, category, min, max, raiting, order]);
 
     const getFilterUrl = (filter) => {
-        const filterCategory = filter.category || category;
-        const filterName = filter.name || name;
-        const filterRaiting = filter.raiting || raiting;
-        const sortOrder = filter.order || order;
-        const filterMin = filter.min ? filter.min : filter.min === 0 ? 0 : min;
-        const filterMax = filter.max ? filter.max : filter.max === 0 ? 0 : max;
-        return `/search/category/${filterCategory}/name/${filterName}/min/${filterMin}/max/${filterMax}/raiting/${filterRaiting}/order/${sortOrder}`;
+      const filterCategory = filter.category || category;
+      const filterName = filter.name || name;
+      const filterRaiting = filter.raiting || raiting;
+      const sortOrder = filter.order || order;
+      const filterMin = filter.min ? filter.min : filter.min === 0 ? 0 : min;
+      const filterMax = filter.max ? filter.max : filter.max === 0 ? 0 : max;
+      return `/search/category/${filterCategory}/name/${filterName}/min/${filterMin}/max/${filterMax}/raiting/${filterRaiting}/order/${sortOrder}`;
     };
 
     return (
-        <div className="search">
-            {loading ? (<LoadingBox></LoadingBox>)
-            : error ? <MessageBox variant="danger">{error}</MessageBox>
-            : <div className="container-sm filter">
-                <button onClick={() => setSidebarIsOpen(true)} type="button" className="filter-button">
-                  <span className="icon-burger"><i className="bi bi-sliders"></i></span>
-                  Фильтры
-                </button>
-
-                <div className="filter-sort">
-                  Сортировка <i className="bi bi-filter"></i>
-                  <select
-                  value={order}
-                  onChange={(e) => {
-                      props.history.push(getFilterUrl({order: e.target.value})) }}
-                  className="form-select filter-select" aria-label="Default select example">
-                    <option value="newest">По новым</option>
-                    <option value="lowest">По возростанию цены</option>
-                    <option value="highest">По убыванию цены</option>
-                    <option value="toprated"> По рейтингу</option>
-                  </select>
-                </div>
-              </div>
-            }
-              
-                <aside className={sidebarIsOpen ? 'open' : ''}>
+      <div className="main">
+        <aside onScroll className={sidebarIsOpen ? 'open' : ''}>
                   <ul>
                     <li>
                     <h3>Категории</h3>
@@ -121,6 +97,33 @@ const SearchScreen = (props) => {
                       </div>
                       </ul>
                 </aside>
+      
+        <div className="search">
+            {loading ? (<LoadingBox></LoadingBox>)
+            : error ? (<MessageBox variant="danger">{error}</MessageBox>)
+            : (<div className="container-sm filter">
+                <button onClick={() => setSidebarIsOpen(true)} type="button" className="filter-button">
+                  <span className="icon-burger"><i className="bi bi-sliders"></i></span>
+                  Фильтры
+                </button>
+
+                <div className="filter-sort">
+                  Сортировка <i className="bi bi-filter"></i>
+                  <select
+                  value={order}
+                  onChange={(e) => {
+                      props.history.push(getFilterUrl({order: e.target.value})) }}
+                  className="form-select filter-select" aria-label="Default select example">
+                    <option value="newest">По новым</option>
+                    <option value="lowest">По возростанию цены</option>
+                    <option value="highest">По убыванию цены</option>
+                    <option value="toprated"> По рейтингу</option>
+                  </select>
+                </div>
+              </div>
+            )}
+              
+                
                 <div className="container-sm">
                 <div className="row product__content">
 
@@ -130,21 +133,16 @@ const SearchScreen = (props) => {
                     ) : error ? (
                     <MessageBox variant="danger">{error}</MessageBox>
                     ) : (
-                        <div>
-                            {loading ? (<LoadingBox></LoadingBox>
-                            ) : error ? (<MessageBox>{error}</MessageBox>
-                            ) : (
-                            <div className="row">
-                              {products.map(product => (
-                                  <Product {...props} key={product._id} product={product} />
-                                ))}
-                            </div>
-                               )}
-                        </div>
+                      <div className="row">
+                        {products.map(product => (
+                            <Product {...props} key={product._id} product={product} />
+                          ))}
+                      </div>
                     )}
                     </div>
                 </div>
                 </div>
+            </div>
         </div>
     );
 };

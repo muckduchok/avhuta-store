@@ -7,7 +7,9 @@ export const listProducts = ({name = '', category = '', min = 0, max = 0, raitin
     });
 
     try {
-        const { data } = await Axios.get(`/api/products?name=${name}&category=${category}&min=${min}&max=${max}&raiting=${raiting}&order=${order}`);
+        const { data } = await Axios.get(
+            `/api/products?name=${name}&category=${category}&min=${min}&max=${max}&raiting=${raiting}&order=${order}`
+          );
         dispatch({
             type: PRODUCT_LIST_SUCCESS,
             payload: data
@@ -21,9 +23,7 @@ export const listProducts = ({name = '', category = '', min = 0, max = 0, raitin
 };
 
 export const listProductsCategory = () => async (dispatch) => {
-    dispatch({
-        type: PRODUCT_CATEGORY_REQUEST
-    });
+    dispatch({ type: PRODUCT_CATEGORY_REQUEST });
 
     try {
         const { data } = await Axios.get(`/api/products/categories`);
@@ -123,7 +123,7 @@ export const deleteProduct = (productId) => async (dispatch, getState) => {
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const { data } = Axios.delete(`/api/products/${productId}`, {
+        Axios.delete(`/api/products/${productId}`, {
             headers: { Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({  type: PRODUCT_DELETE_SUCCESS  });

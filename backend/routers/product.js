@@ -10,17 +10,35 @@ productRouter.get('/', expressAsyncHandler( async (req, res) => {
     const name = req.query.name || '';
     const category = req.query.category || '';
     const order = req.query.order || '';
-    const min = req.query.min && Number(req.query.min) !== 0 ? Number(req.query.min) : 0;
-    const max = req.query.max && Number(req.query.max) !== 0 ? Number(req.query.max) : 0;
-    const raiting = req.query.raiting && Number(req.query.raiting) !== 0 ? Number(req.query.raiting) : 0;
+    const min =
+      req.query.min && Number(req.query.min) !== 0 ? Number(req.query.min) : 0;
+    const max =
+      req.query.max && Number(req.query.max) !== 0 ? Number(req.query.max) : 0;
+    const raiting =
+      req.query.raiting && Number(req.query.raiting) !== 0
+        ? Number(req.query.raiting)
+        : 0;
 
-    const nameFilter = name ? {name: {$regex: name, $options: 'i'}} : {};
-    const categoryFilter = category ? {category} : {};
-    const priceFilter = min && max ? {price: {$gte: min, $lte: max}} : {};
-    const raitingFilter = raiting ? {raiting: {$gte: raiting}} : {};
-    const sortOrder = order === 'lowest' ? {price: 1} : order === 'highest' ? {price: -1} : order === 'toprated' ? {raiting: -1} : {_id: -1};
+        const nameFilter = name ? { name: { $regex: name, $options: 'i' } } : {};
+        const categoryFilter = category ? { category } : {};
+        const priceFilter = min && max ? { price: { $gte: min, $lte: max } } : {};
+        const raitingFilter = raiting ? { raiting: { $gte: raiting } } : {};
+    const sortOrder =
+    order === 'lowest'
+      ? { price: 1 }
+      : order === 'highest'
+      ? { price: -1 }
+      : order === 'toprated'
+      ? { rating: -1 }
+      : { _id: -1 };
 
-    const products = await Product.find({...nameFilter, ...categoryFilter, ...priceFilter, ...raitingFilter}).sort(sortOrder);
+    const products = await Product.find({
+        ...nameFilter,
+        ...categoryFilter,
+        ...priceFilter,
+        ...raitingFilter,
+      })
+            .sort(sortOrder);
     res.send(products);
 }));
 
@@ -54,7 +72,7 @@ productRouter.post('/', isAuth, isAdmin, expressAsyncHandler (async (req, res) =
       brand: 'Брэнд',
       countInStock: 0,
       instock: true,
-      raiting: 3,
+      raiting: 0,
       numReviews: 0,
       descr: 'Короткое описание',
       description: 'Полное описание',

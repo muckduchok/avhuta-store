@@ -57,6 +57,21 @@ const PaymentScreen = (props) => {
                 </label>
             </div>
 
+            <div className="form-check form__item2">
+                <input 
+                 className="form-check-input"
+                 type="radio"
+                 name="paymentMethod"
+                 value="Наличными"
+                 id="onclick"
+                 required
+                 onChange={(e) => setPaymentMethod(e.target.value)}></input>
+
+                <label className="form-check-label" htmlFor="onclick">
+                    Наличными
+                </label>
+            </div>
+
             <div className="signin__button form__button">
                 <label />
                 <button type="submit" className="button-submit payment-button">

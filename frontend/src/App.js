@@ -27,6 +27,9 @@ import SearchScreen from './screens/SearchScreen';
 import { listProductsCategory } from './actions/products';
 import LoadingBox from './components/LoadingBox';
 import MessageBox from './components/MessageBox';
+import ShippingInfo from './screens/info/ShippingInfo';
+import PayInfo from './screens/info/PayInfo';
+import ContactsInfo from './screens/info/ContactsInfo';
 
 function App() {
   const productCategoryList = useSelector((state) => state.categoryList);
@@ -178,34 +181,40 @@ function App() {
       <hr/>
       <ul>
         <li>
-          <strong>Навигация</strong>
+          <strong className="popravka">Навигация</strong>
         </li>
         <li>
-          Все категории
+        <Link to="/search/name">Все категории</Link>
         </li>
         <li>
-          О компании
+        <Link to="/company-info">О компании</Link>
         </li>
         <li>
-          Контакты
+        <Link to="/contacts-info">Контакты</Link>
         </li>
         <li>
-          Доставка
+          <Link to="/shipping-info">Доставка</Link>
         </li>
         <li>
-          Оплата
+        <Link to="/pay-info">Оплата</Link>
         </li>
       </ul>
       <hr/>
       <div className="contacts">
         <h5>Контакты</h5>
-        <span>+380 66 817 3846</span>
-        <span>г.Сумы</span>
+        <a className="phone" href="tel:+380668173846">+380 66 817 3846</a>
+        <span>Украина, г.Сумы</span>
       </div>
     </aside>
     
     <PrivateRouter path="/products" component={ProductListScreen}></PrivateRouter>
-    <PrivateRouter path="/profile" component={ProfileScreen}></PrivateRouter>
+
+    <Route path="/shipping-info" component={ShippingInfo}></Route>
+    <Route path="/pay-info" component={PayInfo}></Route>
+    <Route path="/contacts-info" component={ContactsInfo}></Route>
+    <Route path="/company-info"></Route>
+
+    <Route path="/profile" component={ProfileScreen}></Route>
     <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
     <Route path="/order/:id" component={OrderScreen}></Route>
     <Route path="/placeorder" component={PlaceOrderScreen}></Route>
@@ -215,10 +224,26 @@ function App() {
     <Route path="/signin" component={SigninScreen}></Route>
     <Route path="/cart/:id?" component={CartScreen}></Route>
     <Route path="/product/:id" component={ProductScreen} exact></Route>
-    <Route path="/search/name/:name?" component={SearchScreen} exact></Route>
-    <Route path="/search/category/:category" component={SearchScreen} exact></Route>
-    <Route path="/search/category/:category/name/:name" component={SearchScreen} exact></Route>
-    <Route path="/search/category/:category/name/:name/min/:min/max/:max/raiting/:raiting/order/:order" component={SearchScreen} exact></Route>
+    <Route
+            path="/search/name/:name?"
+            component={SearchScreen}
+            exact
+          ></Route>
+          <Route
+            path="/search/category/:category"
+            component={SearchScreen}
+            exact
+          ></Route>
+          <Route
+            path="/search/category/:category/name/:name"
+            component={SearchScreen}
+            exact
+          ></Route>
+          <Route
+            path="/search/category/:category/name/:name/min/:min/max/:max/raiting/:raiting/order/:order/"
+            component={SearchScreen}
+            exact
+          ></Route>
 
     <AdminRouter path="/product/:id/edit" component={ProductEditScreen} exact></AdminRouter>
     <AdminRouter path="/orderlist" component={OrderListScreen}></AdminRouter>

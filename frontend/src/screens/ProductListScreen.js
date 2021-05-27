@@ -37,7 +37,7 @@ const ProuductListScreen = (props) => {
     }
 
     return (
-        <div className="product__content container">
+        <div className="product__content container-sm">
             <button onClick={createItem} type="button" className="btn btn-outline-dark">Добавить</button>
             
             {loadingDelete && <LoadingBox></LoadingBox>}
@@ -70,7 +70,7 @@ const ProuductListScreen = (props) => {
 
             <div className="card__collection">
                 <div className="card__collection-price">
-                    <span className="card__collection-price-text">{product.price} $</span>
+                    <span className="card__collection-price-text">{product.price} грн</span>
                 </div>
             <div className="card__collection-cart">
                 <button onClick={() => props.history.push(`/product/${product._id}/edit`)} className="button-cart">

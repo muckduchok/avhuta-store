@@ -5,6 +5,7 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { loadStripe } from '@stripe/stripe-js';
 import { ORDER_PAY_RESET } from '../constants/orderConstans';
+import emailjs from 'emailjs-com';
 
 const OrderScreen = (props) => {
     const stripePromise = loadStripe('pk_test_51IlGQMB7mrA0X6eKKiyB13CrdCX790ZtmllQwT6p25Mi9Bf8tPBljR2F7jQZPuGp4Jiihiw50OYXt6ksLEe0Hl1C000mMJ3y3E');
@@ -22,6 +23,7 @@ const OrderScreen = (props) => {
         success: successPay} = orderPay;        
     
     const [sdkReady, setSdkReady] = useState(false);
+    const [onClicker, setOnClick] = useState(false);
     
     useEffect((paymentResult) => {
 
@@ -92,6 +94,24 @@ const OrderScreen = (props) => {
         console.log('Здесь будет оплата с помощью LiqPay');
     }
 
+    const handleOnClick = (e) => {
+        e.preventDefault();
+        const templateParams = {
+            id: order._id,
+            name: order.shippingAddress.fullName,
+            phone: order.shippingAddress.country,
+            email: order.shippingAddress.email,
+            products: order.orderitems
+        };
+
+        emailjs.send('service_hmb19zn', 'template_l3iin8p', templateParams, 'user_QD21e8rLtXmyY2jao1qrH')
+            .then(function(response) {
+                console.log('Отправлено', response.status, response.text, setOnClick(true));
+            }, function(error) {
+                console.log('Ошибка', error, setOnClick(false));
+            });
+    }
+
     return loading ? (<LoadingBox></LoadingBox>) :
     error ? (<MessageBox variant="danger">{error}</MessageBox>)
     :
@@ -159,7 +179,7 @@ const OrderScreen = (props) => {
                     </thead>
                     <tbody>
                         {order.orderItems.map((item) => (
-                        <tr>
+                        <tr key={item._id}>
                             <td>{item.name}</td>
                             <td>{item.qty}</td>
                             <td>{item.price} <strong>грн</strong></td>
@@ -190,7 +210,7 @@ const OrderScreen = (props) => {
                                         Оплатить с помощью Stripe
                                 </button>
                             </div>
-                            ) : (
+                            ) : order.paymentMethod === 'PayPal' ? (
                                 <div className="signin__button form__button">
                                 <button
                                     role="link"
@@ -200,7 +220,20 @@ const OrderScreen = (props) => {
                                         Оплатить с помощью Paypal
                                 </button>
                             </div>
-                            )}
+                            ) : order.paymentMethod === 'Наличными' ? (
+                                <div className="signin__button form__button">
+                                    {onClicker === false && order.paymentMethod === 'Наличными' ? (
+                                        <button
+                                    role="link"
+                                    className="button-submit payment-button"
+                                    type="button"
+                                    onClick={handleOnClick} >
+                                        Купить
+                                </button>
+                                    ) : (<MessageBox>С коро с вами свяжутся</MessageBox>)}
+                                </div>
+                            ) : null
+                        }
                             </>
                         )}
                     </div>
