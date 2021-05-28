@@ -150,7 +150,7 @@ function App() {
       </div>
     </header>
 
-    <aside className={sidebarIsOpen ? 'open' : ''}>
+    <aside id="style-1" className={sidebarIsOpen ? 'open' : ''}>
       <ul className="categories">
         <li>
           <strong>Каталог</strong>

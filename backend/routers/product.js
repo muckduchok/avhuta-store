@@ -34,7 +34,7 @@ productRouter.get('/', expressAsyncHandler( async (req, res) => {
       ? { rating: -1 }
       : { _id: -1 };
 
-    const count = await Product.count({
+    const count = await Product.countDocuments({
         ...nameFilter,
         ...categoryFilter,
         ...priceFilter,

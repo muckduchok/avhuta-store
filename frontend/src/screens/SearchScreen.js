@@ -52,64 +52,63 @@ const SearchScreen = (props) => {
 
     return (
       <div className="main">
-        <aside className={sidebarIsOpen ? 'open' : ''}>
-                  <ul>
-                    <li>
-                    <h3>Категории</h3>
-                    <button className="close-sidebar" type="button" onClick={() => setSidebarIsOpen(false)}><i className="bi bi-x-circle-fill"></i></button>
-                    </li>
-                      <li>
-                        {loadingCategories ? (
-                        <LoadingBox></LoadingBox>
-                        ) : errorCategories ? (
-                        <MessageBox variant="danger">{errorCategories}
-                        </MessageBox>
-                        ) : (
-                          <div className="categoriess">
-                            <div className="category-li">
-                            <Link onClick={() => setSidebarIsOpen(false)} className={'all' === category ? 'active' : ''} to={getFilterUrl({category: 'all'})}>Все</Link>
+        <aside id="style-1" className={sidebarIsOpen ? 'opens aside' : ''}>
+          <ul>
+            <li>
+            <h3>Категории</h3>
+            <button className="close-sidebar" type="button" onClick={() => setSidebarIsOpen(false)}><i className="bi bi-x-circle-fill"></i></button>
+            </li>
+              <li>
+                {loadingCategories ? (
+                <LoadingBox></LoadingBox>
+                ) : errorCategories ? (
+                <MessageBox variant="danger">{errorCategories}
+                </MessageBox>
+                ) : (
+                  <div className="categoriess">
+                    <div className="category-li">
+                    <Link onClick={() => setSidebarIsOpen(false)} className={'all' === category ? 'active' : ''} to={getFilterUrl({category: 'all'})}>Все</Link>
+                    </div>
+                        {categories.map((cat) => (
+                            <div className="category-li" key={cat}>
+                            <Link onClick={() => setSidebarIsOpen(false)} className={cat === category ? 'active' : ''} to={getFilterUrl({category: cat})}>{cat}</Link>
                             </div>
-                               {categories.map((cat) => (
-                                   <div className="category-li" key={cat}>
-                                    <Link onClick={() => setSidebarIsOpen(false)} className={cat === category ? 'active' : ''} to={getFilterUrl({category: cat})}>{cat}</Link>
-                                   </div>
-                               ))}
-                          </div>
-                        )}
+                        ))}
+                  </div>
+                )}
+              </li>
+              <div>
+                <h3>Цена</h3>
+                <ul>
+                  {prices.map((p) => (
+                    <li key={p.name}>
+                      <Link
+                      onClick={() => setSidebarIsOpen(false)}
+                      className={`${p.min}-${p.max}` === `${min}-${max}` ? 'active' : ''}
+                      to={getFilterUrl({min: p.min, max: p.max})}>
+                        {p.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+                <div>
+                  <h3>Рейтинг</h3>
+                  <ul>
+                    {raitings.map((r) => (
+                      <li key={r.name}>
+                        <Link
+                        onClick={() => setSidebarIsOpen(false)}
+                          className={`${r.raiting}` === `${raiting}` ? 'active' : ''}
+                          to={getFilterUrl({raiting: r.raiting})}>
+                            <Raiting caption={" и выше"} raiting={r.raiting}></Raiting>
+                        </Link>
                       </li>
-                      <div>
-                        <h3>Цена</h3>
-                        <ul>
-                          {prices.map((p) => (
-                            <li key={p.name}>
-                              <Link
-                              onClick={() => setSidebarIsOpen(false)}
-                              className={`${p.min}-${p.max}` === `${min}-${max}` ? 'active' : ''}
-                              to={getFilterUrl({min: p.min, max: p.max})}>
-                                {p.name}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div>
-                        <h3>Рейтинг</h3>
-                        <ul>
-                          {raitings.map((r) => (
-                            <li key={r.name}>
-                              <Link
-                              onClick={() => setSidebarIsOpen(false)}
-                                className={`${r.raiting}` === `${raiting}` ? 'active' : ''}
-                                to={getFilterUrl({raiting: r.raiting})}>
-                                  <Raiting caption={" и выше"} raiting={r.raiting}></Raiting>
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      </ul>
+                    ))}
+                  </ul>
+                </div>
+                </ul>
                 </aside>
-      
         <div className="search">
             {loading ? (<LoadingBox></LoadingBox>)
             : error ? (<MessageBox variant="danger">{error}</MessageBox>)
