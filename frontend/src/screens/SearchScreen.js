@@ -10,10 +10,18 @@ import Raiting from '../components/Raiting';
 import { prices, raitings } from '../utils';
 
 const SearchScreen = (props) => {
-    const {name = 'all', category = 'all', min = 0, max = 0, raiting = 0, order = ''} = useParams();
+  const {
+    name = 'all',
+    category = 'all',
+    min = 0,
+    max = 0,
+    raiting = 0,
+    order = 'newest',
+    pageNumber = 1,
+  } = useParams();
     const dispatch = useDispatch();
     const productList = useSelector((state) => state.productList);
-    const { loading, error, products } = productList;
+    const { loading, error, products, page, pages } = productList;
     const productCategoryList = useSelector((state) => state.categoryList);
     const { loading: loadingCategories, error: errorCategories, categories } = productCategoryList;
 
@@ -21,6 +29,7 @@ const SearchScreen = (props) => {
 
     useEffect(() => {
         dispatch(listProducts({
+          pageNumber,
           name: name !== 'all' ? name: '',
           category: category !== 'all' ? category: '',
           min,
@@ -28,21 +37,22 @@ const SearchScreen = (props) => {
           raiting,
           order
         }));
-    }, [dispatch, name, category, min, max, raiting, order]);
+    }, [dispatch, name, category, min, max, raiting, order, pageNumber]);
 
     const getFilterUrl = (filter) => {
+      const filterPage = filter.page || pageNumber;
       const filterCategory = filter.category || category;
       const filterName = filter.name || name;
       const filterRaiting = filter.raiting || raiting;
       const sortOrder = filter.order || order;
       const filterMin = filter.min ? filter.min : filter.min === 0 ? 0 : min;
       const filterMax = filter.max ? filter.max : filter.max === 0 ? 0 : max;
-      return `/search/category/${filterCategory}/name/${filterName}/min/${filterMin}/max/${filterMax}/raiting/${filterRaiting}/order/${sortOrder}`;
+      return `/search/category/${filterCategory}/name/${filterName}/min/${filterMin}/max/${filterMax}/raiting/${filterRaiting}/order/${sortOrder}/pageNumber/${filterPage}`;
     };
 
     return (
       <div className="main">
-        <aside onScroll className={sidebarIsOpen ? 'open' : ''}>
+        <aside className={sidebarIsOpen ? 'open' : ''}>
                   <ul>
                     <li>
                     <h3>Категории</h3>
@@ -56,12 +66,12 @@ const SearchScreen = (props) => {
                         </MessageBox>
                         ) : (
                           <div className="categoriess">
-                            <div>
-                            <Link className={'all' === category ? 'active' : ''} to={getFilterUrl({category: 'all'})}>Все</Link>
+                            <div className="category-li">
+                            <Link onClick={() => setSidebarIsOpen(false)} className={'all' === category ? 'active' : ''} to={getFilterUrl({category: 'all'})}>Все</Link>
                             </div>
                                {categories.map((cat) => (
                                    <div className="category-li" key={cat}>
-                                    <Link className={cat === category ? 'active' : ''} to={getFilterUrl({category: cat})}>{cat}</Link>
+                                    <Link onClick={() => setSidebarIsOpen(false)} className={cat === category ? 'active' : ''} to={getFilterUrl({category: cat})}>{cat}</Link>
                                    </div>
                                ))}
                           </div>
@@ -73,6 +83,7 @@ const SearchScreen = (props) => {
                           {prices.map((p) => (
                             <li key={p.name}>
                               <Link
+                              onClick={() => setSidebarIsOpen(false)}
                               className={`${p.min}-${p.max}` === `${min}-${max}` ? 'active' : ''}
                               to={getFilterUrl({min: p.min, max: p.max})}>
                                 {p.name}
@@ -87,6 +98,7 @@ const SearchScreen = (props) => {
                           {raitings.map((r) => (
                             <li key={r.name}>
                               <Link
+                              onClick={() => setSidebarIsOpen(false)}
                                 className={`${r.raiting}` === `${raiting}` ? 'active' : ''}
                                 to={getFilterUrl({raiting: r.raiting})}>
                                   <Raiting caption={" и выше"} raiting={r.raiting}></Raiting>
@@ -141,6 +153,17 @@ const SearchScreen = (props) => {
                     )}
                     </div>
                 </div>
+                <div className="row center pagination">
+                     {[...Array(pages).keys()].map((x) => (
+                      <Link
+                        className={x + 1 === page ? 'active' : ''}
+                        key={x + 1}
+                        to={getFilterUrl({ page: x + 1 })}
+                        >
+                          {x + 1}
+                      </Link>
+                      ))}
+                    </div>
                 </div>
             </div>
         </div>

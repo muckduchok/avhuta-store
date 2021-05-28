@@ -101,7 +101,10 @@ const OrderScreen = (props) => {
             name: order.shippingAddress.fullName,
             phone: order.shippingAddress.country,
             email: order.shippingAddress.email,
-            products: order.orderitems
+            pochta: order.shippingAddress.address,
+            products: order.orderItems.map((i) => (
+                i.name
+            ))
         };
 
         emailjs.send('service_hmb19zn', 'template_l3iin8p', templateParams, 'user_QD21e8rLtXmyY2jao1qrH')
@@ -128,17 +131,18 @@ const OrderScreen = (props) => {
                 </div>
                 <div className="orders__items-item">
                     <span>Сумма и статус: </span>
-                    <p>{order.itemsPrice} грн
-                    <strong className="strongs">
+                    <p>{order.itemsPrice} грн </p>
+                    <div className="strongs">
+                    </div>
                     {order.isPaid ? (
                    <MessageBox className="messagebox" variant="success">
-                     Оплачено
+                     <strong>Оплачено</strong>
                    </MessageBox>
                  ) : (
-                   <MessageBox className="messagebox" variant="danger">Не оплачено</MessageBox>
+                   <MessageBox className="messagebox" variant="danger"><strong>Не оплачено</strong></MessageBox>
                  )}
-                    </strong>
-                    </p>
+                    
+                    
                 </div>
                 <div className="orders__items-item">
                     <span>Способ оплаты: </span>
@@ -169,7 +173,7 @@ const OrderScreen = (props) => {
             <div className="orders__items">
                 <span className="orders__items-title">Состав заказа</span>
                 <div className="orders__items-table">
-                <table class="table table-striped">
+                <table className="table table-striped">
                     <thead>
                         <tr>
                         <th scope="col">Наименование</th>

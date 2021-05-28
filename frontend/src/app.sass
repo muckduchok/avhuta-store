@@ -112,7 +112,7 @@ aside
     min-height: 100%
     max-height: 1200px
     background-color: white
-    z-index: 1000
+    z-index: 3000
     transform: translateX(-450px)
     transition: 0.4s all
     border: 1px solid
@@ -178,6 +178,7 @@ aside li
     align-items: center
     margin-top: 15px
     margin-bottom: 25px
+    background-color: white
     &__area-burger
     .button-burger
         display: flex
@@ -704,3 +705,23 @@ h2
             flex-direction: row
             align-items: center
         
+.pagination
+    display: flex
+    justify-content: center
+    a
+        display: flex
+        align-items: center
+        justify-content: center
+        width: 30px
+        height: 30px
+        margin: 5px
+        border-radius: 0.5rem
+        border: 0.1rem #283B54 solid
+        font-size: 15px
+        text-decoration: none
+        color: black
+        &:hover
+            background-color: #283b544d
+    .active
+        font-weight: bold
+

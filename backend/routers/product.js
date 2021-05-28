@@ -7,6 +7,8 @@ import { isAdmin, isAuth } from '../utils.js';
 const productRouter = express.Router();
 
 productRouter.get('/', expressAsyncHandler( async (req, res) => {
+    const pageSize = 8;
+    const page = Number(req.query.pageNumber) || 1;
     const name = req.query.name || '';
     const category = req.query.category || '';
     const order = req.query.order || '';
@@ -32,14 +34,20 @@ productRouter.get('/', expressAsyncHandler( async (req, res) => {
       ? { rating: -1 }
       : { _id: -1 };
 
+    const count = await Product.count({
+        ...nameFilter,
+        ...categoryFilter,
+        ...priceFilter,
+        ...raitingFilter
+    });
     const products = await Product.find({
         ...nameFilter,
         ...categoryFilter,
         ...priceFilter,
         ...raitingFilter,
-      })
-            .sort(sortOrder);
-    res.send(products);
+      }).sort(sortOrder).skip(pageSize* (page -1)).limit(pageSize);
+
+    res.send({products, page, pages: Math.ceil(count / pageSize)});
 }));
 
 productRouter.get('/categories', expressAsyncHandler (async( req,res) => {

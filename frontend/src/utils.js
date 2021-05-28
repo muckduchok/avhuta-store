@@ -3,22 +3,22 @@ export const prices = [
     {
       name: 'Все',
       min: 0,
-      max: 100000,
+      max: 0,
     },
     {
-      name: `$100 до $500`,
+      name: `100 до 1000 грн`,
       min: 100,
-      max: 500,
+      max: 1000,
     },
     {
-      name: `$1000 до $2000`,
+      name: `1000 до 5000 грн`,
       min: 1000,
-      max: 2000,
+      max: 5000,
     },
     {
-      name: `$2200 до $5000`,
-      min: 2200,
-      max: 5000,
+      name: `5000 до 15000 грн`,
+      min: 5000,
+      max: 15000,
     },
   ];
 
@@ -39,4 +39,8 @@ export const prices = [
         name: '1stars & up',
         raiting: 1
     },
+    {
+      name: '0stars & up',
+      raiting: 0
+    }
   ]

@@ -1,18 +1,20 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createProduct, deleteProduct, listProducts } from '../actions/products';
-import { Link} from 'react-router-dom';
+import { Link, useParams} from 'react-router-dom';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { PRODUCT_CREATE_RESET, PRODUCT_DELETE_RESET } from '../constants/productConstans';
 
 const ProuductListScreen = (props) => {
     const productList = useSelector((state) => state.productList);
-    const {loading, error, products} = productList;
+    const {loading, error, products, page, pages} = productList;
     const productCreate = useSelector((state) => state.productCreate);
     const { loading: loadingCreate, error: errorCreate, success: successCreate, product: createdProduct} = productCreate;
     const productDelete = useSelector((state) => state.productDelete);
     const { loading: loadingDelete, error: errorDelete, success: successDelete} = productDelete;
+
+    const {pageNumber = 1 } = useParams();
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -23,8 +25,8 @@ const ProuductListScreen = (props) => {
         if(successDelete) {
             dispatch({type: PRODUCT_DELETE_RESET});
         }
-        dispatch(listProducts({}));
-    }, [createdProduct, dispatch, props.history, successCreate, successDelete]);
+        dispatch(listProducts({pageNumber}));
+    }, [createdProduct, dispatch, props.history, successCreate, successDelete, pageNumber]);
 
     const deleteItem = (product) => {
         if (window.confirm('Вы уверены ?')) {
@@ -52,6 +54,7 @@ const ProuductListScreen = (props) => {
             ) : error ? (
             <MessageBox variant="danger">{error}</MessageBox>
             ) : (
+                <>
             <div className="row">
             {
                 products.map(product => (
@@ -84,7 +87,19 @@ const ProuductListScreen = (props) => {
         </div>
         </div>
     ))}
-        </div>
+        </div> 
+        <div className="row center pagination">
+        {[...Array(pages).keys()].map((x) => (
+         <Link
+           className={x + 1 === page ? 'active' : ''}
+           key={x + 1}
+           to={`/products/pageNumber/${x+1}`}
+           >
+             {x + 1}
+         </Link>
+         ))}
+       </div>
+       </>
             )}
         </div>
     );

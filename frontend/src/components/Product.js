@@ -6,6 +6,7 @@ export default function Product(props) {
     const { product } = props;
     const addToCart = () => {
         props.history.push(`/cart/${product._id}`);
+        props.history.goBack();
     }
 
     return (

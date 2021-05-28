@@ -15,7 +15,6 @@ import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import OrderHistoryScreen from './screens/OrderHistoryScreen';
 import ProfileScreen from './screens/ProfileScreen';
-import PrivateRouter from './components/AdminRouter';
 import AdminRouter from './components/AdminRouter';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
@@ -31,6 +30,7 @@ import ShippingInfo from './screens/info/ShippingInfo';
 import PayInfo from './screens/info/PayInfo';
 import ContactsInfo from './screens/info/ContactsInfo';
 import CompanyInfo from './screens/info/CompanyInfo';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   const productCategoryList = useSelector((state) => state.categoryList);
@@ -48,13 +48,6 @@ function App() {
   }, [dispatch]);
   const [search, setSearch] = useState(false);
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
-
-  const searchOpen = () => {
-    setSearch(true);
-  };
-  const searchClose = () => {
-    setSearch(false);
-  };
 
   return (
     <BrowserRouter>
@@ -81,11 +74,10 @@ function App() {
         <div className="header__area-controls">
     
           <div className="control-search">
-            
           
             <button type="button" className="search-btn">
-              {!search ? (<span onClick={() => searchOpen()} className="icon-search _show"><i className="bi bi-search"></i></span>) : (
-                  <span onClick={() => searchClose()} className="icon-close _hide"><i className="bi bi-x-circle"></i></span>
+              {!search ? (<span onClick={() => setSearch(true)} className="icon-search _show"><i className="bi bi-search"></i></span>) : (
+                  <span onClick={() => setSearch(false)} className="icon-close _hide"><i className="bi bi-x-circle"></i></span>
               
               )}
             </button>
@@ -208,14 +200,15 @@ function App() {
       </div>
     </aside>
     
-    <PrivateRouter path="/products" component={ProductListScreen}></PrivateRouter>
+    <AdminRouter path="/products" component={ProductListScreen} exact></AdminRouter>
+    <AdminRouter path="/products/pageNumber/:pageNumber" component={ProductListScreen} exact></AdminRouter>
 
     <Route path="/shipping-info" component={ShippingInfo}></Route>
     <Route path="/pay-info" component={PayInfo}></Route>
     <Route path="/contacts-info" component={ContactsInfo}></Route>
     <Route path="/company-info" component={CompanyInfo}></Route>
 
-    <Route path="/profile" component={ProfileScreen}></Route>
+    <PrivateRoute path="/profile" component={ProfileScreen}></PrivateRoute>
     <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
     <Route path="/order/:id" component={OrderScreen}></Route>
     <Route path="/placeorder" component={PlaceOrderScreen}></Route>
@@ -241,7 +234,7 @@ function App() {
             exact
           ></Route>
           <Route
-            path="/search/category/:category/name/:name/min/:min/max/:max/raiting/:raiting/order/:order/"
+            path="/search/category/:category/name/:name/min/:min/max/:max/raiting/:raiting/order/:order/pageNumber/:pageNumber"
             component={SearchScreen}
             exact
           ></Route>
