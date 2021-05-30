@@ -11,7 +11,6 @@ import SigninScreen from './screens/SigninScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ShippingScreen from './screens/ShippingScreen';
 import PaymentScreen from './screens/PaymentScreen';
-import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import OrderHistoryScreen from './screens/OrderHistoryScreen';
 import ProfileScreen from './screens/ProfileScreen';
@@ -127,9 +126,6 @@ function App() {
                         <Link to="/products">Продукты</Link>
                       </li>
                       <li>
-                        <Link to="/table">Таблица</Link>
-                      </li>
-                      <li>
                         <Link to="/orderlist">Заказы</Link>
                       </li>
                     </ul>
@@ -211,7 +207,6 @@ function App() {
     <PrivateRoute path="/profile" component={ProfileScreen}></PrivateRoute>
     <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
     <Route path="/order/:id" component={OrderScreen}></Route>
-    <Route path="/placeorder" component={PlaceOrderScreen}></Route>
     <Route path="/payment" component={PaymentScreen}></Route>
     <Route path="/shipping" component={ShippingScreen}></Route>
     <Route path="/register" component={RegisterScreen}></Route>

@@ -46,7 +46,7 @@ const OrderListScreen = (props) => {
                     {orders.map((order) => (
                         <tr key={order._id}>
                             <td>{order._id}</td>
-                            <td>{order.name}</td>
+                            <td>{order.shippingAddress.fullName}</td>
                             <td>{order.createdAt.substring(0, 10)}</td>
                             <td>{order.itemsPrice.toFixed(2)}</td>
                             <td>{order.isPaid ? order.paidAt.substring(0,10) : 'Нет'}</td>

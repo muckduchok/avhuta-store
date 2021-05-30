@@ -8,7 +8,6 @@ const CheckoutSteps = (props) => {
                 <Step className={props.step1 ? 'active' : ''} label="Войти" />
                 <Step className={props.step2 ? 'active' : ''} label="Данные" />
                 <Step className={props.step3 ? 'active' : ''} label="Выбор платежа" />
-                <Step className={props.step4 ? 'active' : ''} label="Подтверждение заказа" />
             </Stepper>
         </div>
     );

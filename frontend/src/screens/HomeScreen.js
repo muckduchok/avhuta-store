@@ -35,7 +35,7 @@ function HomeScreen(props) {
             ))}
         </div>
           )}
-              <Link className="all-products" to="/search/name">Все товары</Link>
+              <Link className="all-products" to="/search/name"><span>Все товары </span><i className="bi bi-arrow-right-short"></i></Link>
             <div className="descr container-sm">
               <div className="descr__i">
                 <i className="bi bi-shop"></i>
@@ -47,7 +47,7 @@ function HomeScreen(props) {
               Тут вы можете добавить небольшое описание о вашем интернет-магазине. Какие у вас есть плюсы и можете добавить интересные факты о магазине
               </div>
               <div className="descr__dop">
-                <a href="/">Подробнее</a>
+                <Link to="/company-info">Подробнее</Link>
               </div>
             </div>
       </div>

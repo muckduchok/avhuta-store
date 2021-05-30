@@ -6,8 +6,10 @@ import MessageBox from '../components/MessageBox';
 import { loadStripe } from '@stripe/stripe-js';
 import { ORDER_PAY_RESET } from '../constants/orderConstans';
 import emailjs from 'emailjs-com';
+import dotenv from 'dotenv';
 
 const OrderScreen = (props) => {
+    dotenv.config();
     const stripePromise = loadStripe('pk_test_51IlGQMB7mrA0X6eKKiyB13CrdCX790ZtmllQwT6p25Mi9Bf8tPBljR2F7jQZPuGp4Jiihiw50OYXt6ksLEe0Hl1C000mMJ3y3E');
     const orderId = props.match.params.id;
 
@@ -43,6 +45,7 @@ const OrderScreen = (props) => {
         if (query.get("success")) {
             dispatch(payOrder(order, paymentResult));
             dispatch({ type: ORDER_PAY_RESET });
+            setMessage(<MessageBox variant="success">Оплачено</MessageBox>)
           }
           if (query.get("canceled")) {
             setMessage(<MessageBox variant="danger">Не оплачено</MessageBox> )
@@ -68,6 +71,24 @@ const OrderScreen = (props) => {
     const handleClickStripe = async () => {
         const stripe = await stripePromise;
 
+        const templateParams = {
+            id: order._id,
+            name: order.shippingAddress.fullName,
+            phone: order.shippingAddress.country,
+            email: order.shippingAddress.email,
+            pochta: order.shippingAddress.address,
+            products: order.orderItems.map((i) => (
+                i.name
+            )),
+        };
+
+        await emailjs.send('service_hmb19zn', 'template_675yoxi', templateParams, 'user_QD21e8rLtXmyY2jao1qrH')
+            .then(function(response) {
+                console.log('Отправлено', response.status, response.text);
+            }, function(error) {
+                console.log('Ошибка', error);
+            });
+
         const response = await fetch('/api/orders/create-checkout-session', {
             method: 'POST',
             headers: {
@@ -84,7 +105,6 @@ const OrderScreen = (props) => {
         const result = await stripe.redirectToCheckout({
             sessionId: session.id
         });
-
         // Тут может быть ошибка в будущем* (убрать message)
         if (result.error) {
             console.log(message);

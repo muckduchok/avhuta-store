@@ -1,4 +1,4 @@
-import express, { response } from 'express';
+import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Order from '../models/order.js';
 import { isAuth, isAdmin } from '../utils.js';
@@ -77,6 +77,7 @@ orderRouter.put('/:id/pay', isAuth, expressAsyncHandler( async (req, res) => {
             email_address: req.body.email_address
         };
         const updatedOrder = await order.save();
+
         res.send({message: 'Заказ оплачен', order: updatedOrder}); 
     } else {
         res.status(404).send({message: 'Заказ не найден'});
