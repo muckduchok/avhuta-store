@@ -30,6 +30,7 @@ import PayInfo from './screens/info/PayInfo';
 import ContactsInfo from './screens/info/ContactsInfo';
 import CompanyInfo from './screens/info/CompanyInfo';
 import PrivateRoute from './components/PrivateRoute';
+import PlaceOrderScreen from './screens/PlaceOrderScreen';
 
 function App() {
   const productCategoryList = useSelector((state) => state.categoryList);
@@ -207,6 +208,7 @@ function App() {
     <PrivateRoute path="/profile" component={ProfileScreen}></PrivateRoute>
     <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
     <Route path="/order/:id" component={OrderScreen}></Route>
+    <Route path="/placeorder" component={PlaceOrderScreen}></Route>
     <Route path="/payment" component={PaymentScreen}></Route>
     <Route path="/shipping" component={ShippingScreen}></Route>
     <Route path="/register" component={RegisterScreen}></Route>

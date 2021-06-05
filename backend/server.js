@@ -6,7 +6,6 @@ import userRouter from './routers/user.js';
 import productRouter from './routers/product.js';
 import orderRouter from './routers/order.js';
 import uploadRouter from './routers/upload.js';
-
 dotenv.config();
 
 const app = express();
@@ -28,6 +27,10 @@ app.use('/api/orders', orderRouter);
 app.get('/api/config/stripe', (req, res) => {
     res.send(process.env.STRIPE_SECRET_KEY || 'sb');
 });
+app.get('/api/config/liqpay', (req, res) => {
+    res.send(process.env.LIQPAY_SECRET_KEY && process.env.LIQPAY_PUBLISH_KEY || 'sb');
+});
+
 const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 

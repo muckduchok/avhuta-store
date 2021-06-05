@@ -6,13 +6,12 @@ import MessageBox from '../components/MessageBox';
 import { loadStripe } from '@stripe/stripe-js';
 import { ORDER_PAY_RESET } from '../constants/orderConstans';
 import emailjs from 'emailjs-com';
-import dotenv from 'dotenv';
+import { LiqPayPay } from "react-liqpay";
 
 const OrderScreen = (props) => {
-    dotenv.config();
-    const stripePromise = loadStripe('pk_test_51IlGQMB7mrA0X6eKKiyB13CrdCX790ZtmllQwT6p25Mi9Bf8tPBljR2F7jQZPuGp4Jiihiw50OYXt6ksLEe0Hl1C000mMJ3y3E');
+    const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISH_KEY);
     const orderId = props.match.params.id;
-
+    
     const dispatch = useDispatch();
 
     const orderDetails = useSelector((state) => state.orderDetails);
@@ -22,7 +21,7 @@ const OrderScreen = (props) => {
     const {
         loading: loadingPay,
         error: errorPay,
-        success: successPay} = orderPay;        
+        success: successPay} = orderPay;
     
     const [sdkReady, setSdkReady] = useState(false);
     const [onClicker, setOnClick] = useState(false);
@@ -45,10 +44,6 @@ const OrderScreen = (props) => {
         if (query.get("success")) {
             dispatch(payOrder(order, paymentResult));
             dispatch({ type: ORDER_PAY_RESET });
-            setMessage(<MessageBox variant="success">Оплачено</MessageBox>)
-          }
-          if (query.get("canceled")) {
-            setMessage(<MessageBox variant="danger">Не оплачено</MessageBox> )
           }
 
         if (!order || successPay || (order && order._id !== orderId)) {
@@ -65,8 +60,6 @@ const OrderScreen = (props) => {
         }
 
     }, [dispatch, order, orderId, sdkReady, successPay]);
-    
-    const [message, setMessage] = useState("");
 
     const handleClickStripe = async () => {
         const stripe = await stripePromise;
@@ -82,7 +75,7 @@ const OrderScreen = (props) => {
             )),
         };
 
-        await emailjs.send('service_hmb19zn', 'template_675yoxi', templateParams, 'user_QD21e8rLtXmyY2jao1qrH')
+        await emailjs.send(process.env.REACT_APP_EMAIL_ID, process.env.REACT_APP_TEMPALTE_STRIPE, templateParams, process.env.REACT_APP_USER_ID)
             .then(function(response) {
                 console.log('Отправлено', response.status, response.text);
             }, function(error) {
@@ -107,11 +100,28 @@ const OrderScreen = (props) => {
         });
         // Тут может быть ошибка в будущем* (убрать message)
         if (result.error) {
-            console.log(message);
+            console.log('IDK');
           }
-    }
-    const handleClickPaypal = () => {
-        console.log('Здесь будет оплата с помощью LiqPay');
+    };
+
+    const handleOnLiqpay = async () => {
+        const templateParams = {
+            id: order._id,
+            name: order.shippingAddress.fullName,
+            phone: order.shippingAddress.country,
+            email: order.shippingAddress.email,
+            pochta: order.shippingAddress.address,
+            products: order.orderItems.map((i) => (
+                i.name
+            ))
+        };
+
+        await emailjs.send(process.env.REACT_APP_EMAIL_ID, process.env.REACT_APP_TEMPLATE_DEFAULT, templateParams, process.env.REACT_APP_USER_ID)
+            .then(function(response) {
+                console.log('Отправлено', response.status, response.text);
+            }, function(error) {
+                console.log('Ошибка', error);
+            });
     }
 
     const handleOnClick = (e) => {
@@ -127,13 +137,28 @@ const OrderScreen = (props) => {
             ))
         };
 
-        emailjs.send('service_hmb19zn', 'template_l3iin8p', templateParams, 'user_QD21e8rLtXmyY2jao1qrH')
+        emailjs.send(process.env.REACT_APP_EMAIL_ID, process.env.REACT_APP_TEMPLATE_DEFAULT, templateParams, process.env.REACT_APP_USER_ID)
             .then(function(response) {
                 console.log('Отправлено', response.status, response.text, setOnClick(true));
             }, function(error) {
                 console.log('Ошибка', error, setOnClick(false));
             });
     }
+
+    const ButtonComponent = () => (
+        <button style={{
+            backgroundColor: '#1C2339',
+            color: 'white',
+            border: 'none',
+            padding: '6px 12px',
+            width: '120px',
+            height: '50px'
+        }}>
+            {`Оплатить`}
+        </button>
+    );
+
+    const goodUrl = `http://localhost:3000/order/${orderId}`;
 
     return loading ? (<LoadingBox></LoadingBox>) :
     error ? (<MessageBox variant="danger">{error}</MessageBox>)
@@ -234,15 +259,21 @@ const OrderScreen = (props) => {
                                         Оплатить с помощью Stripe
                                 </button>
                             </div>
-                            ) : order.paymentMethod === 'PayPal' ? (
-                                <div className="signin__button form__button">
-                                <button
-                                    role="link"
-                                    className="button-submit payment-button"
-                                    type="button"
-                                    onClick={handleClickPaypal} >
-                                        Оплатить с помощью Paypal
-                                </button>
+                            ) : order.paymentMethod === 'LiqPay' ? (
+                                <div onSubmit={() => handleOnLiqpay()} className="signin__button form__button">
+                                    <LiqPayPay
+                                        publicKey={process.env.REACT_APP_LIQPAY_PUBLISH_KEY}
+                                        privateKey={process.env.REACT_APP_LIQPAY_SECRET_KEY}
+                                        amount={order.itemsPrice.toString()}
+                                        description="Оплата за товар"
+                                        currency="UAH"
+                                        orderId={orderId + Date.now()}
+                                        result_url={goodUrl}
+                                        product_description="Интернет магазин"
+                                        style={{ margin: "8px" }}
+                                        extra={[<ButtonComponent key="1" />]}
+                                    >
+                                    </LiqPayPay>
                             </div>
                             ) : order.paymentMethod === 'Наличными' ? (
                                 <div className="signin__button form__button">
@@ -264,54 +295,6 @@ const OrderScreen = (props) => {
                 )}
             </div>
         </div>
-
-        // <div className="container">
-        //     <h2>Заказ: {order._id}</h2>
-        //     <div className="row">
-        //         <div className="col">
-        //             <div className="collection">
-        //                 <p className="collection-p">
-        //                     <strong className="collection-strong">Имя:</strong><span> {order.shippingAddress.fullName}</span> <br />
-        //                     <strong className="collection-strong">Город:</strong> <span> {order.shippingAddress.city}</span> <br />
-        //                     <strong className="collection-strong">Адресс:</strong> <span> {order.shippingAddress.address}</span> <br/>
-        //                     <strong className="collection-strong">Номер:</strong> <span> {order.shippingAddress.country}</span> <br/>
-        //                     <strong className="collection-strong">Оплата:</strong> <span> {order.paymentMethod}</span>
-        //                 </p>
-        //             </div>
-        //             {order.isPaid ? (
-        //           <MessageBox variant="success">
-        //             Paid at {order.paidAt}
-        //           </MessageBox>
-        //         ) : (
-        //           <MessageBox variant="danger">Не оплачено</MessageBox>
-        //         )}
-        //         </div>
-
-        //         <div className="col">
-        //             {
-        //                 order.orderItems.map((item) => (
-        //                     <div key={item.product} className="cart__items">
-        //                         <div className="cart__items-img">
-        //                             <img src={item.image} alt={item.name}></img>
-        //                         </div>
-        //                     <div className="cart__items-name">
-        //                         <span>{item.name}</span>
-        //                     </div>
-        //                     <div className="cart__items-price">
-        //                         <span>{item.qty}x <strong>{item.qty * item.price} грн</strong></span>
-        //                     </div>
-        //                 </div>
-        //                 ))
-        //             }
-        //             <hr />
-        //             <div className="cart__items-itogo">
-        //                 <span className="total">Итого: </span>
-        //                 <span className="price">{order.itemsPrice} грн</span> 
-        //             </div>
-                        
-        //             </div>
-        //     </div>
-        // </div>
     );
 };
 
