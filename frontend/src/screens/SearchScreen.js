@@ -1,12 +1,13 @@
 import React, { useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import { listProducts } from '../actions/products';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import Product from '../components/Product';
 import Raiting from '../components/Raiting';
+import SearchBox from '../components/SearchBox';
 import { prices, raitings } from '../utils';
 
 const SearchScreen = (props) => {
@@ -110,9 +111,15 @@ const SearchScreen = (props) => {
                 </ul>
                 </aside>
         <div className="search">
+          <div className="container-sm phone-search">
+          { (<Route render={({history}) =>
+            <SearchBox history={history}></SearchBox>}>
+          </Route>)}
+          </div>
             {loading ? (<LoadingBox></LoadingBox>)
             : error ? (<MessageBox variant="danger">{error}</MessageBox>)
-            : (<div className="container-sm filter">
+            : (
+            <div className="container-sm filter">
                 <button onClick={() => setSidebarIsOpen(true)} type="button" className="filter-button">
                   <span className="icon-burger"><i className="bi bi-sliders"></i></span>
                   Фильтры
@@ -133,7 +140,6 @@ const SearchScreen = (props) => {
                 </div>
               </div>
             )}
-              
                 
                 <div className="container-sm">
                 <div className="row product__content">

@@ -103,7 +103,7 @@ export default function SimpleTabs(props) {
       <TabPanel className="tabs-app" value={value} index={0}>
         <div>
         {loading ? (<LoadingBox></LoadingBox>) : error ? (<MessageBox>{error}</MessageBox>) :(
-          <pre>
+          <pre className="pretabs">
           {product.description}
           </pre>
         )}
@@ -112,7 +112,7 @@ export default function SimpleTabs(props) {
       <TabPanel value={value} index={1}>
       <div>
         {loading ? (<LoadingBox></LoadingBox>) : error ? (<MessageBox>{error}</MessageBox>) :(
-          <pre>
+          <pre className="pretabs">
           {product.characteristics}
           </pre>
         )}

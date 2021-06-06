@@ -8,12 +8,6 @@ import 'styled-components';
 const CarouselBox = () => {
   const breakPoints = [
         { width: 1, itemsToShow: 1 },
-        { width: 700, itemsToShow: 1},
-        { width: 800, itemsToShow: 2 },
-        { width: 920, itemsToShow: 2 },
-        { width: 1150, itemsToShow: 2, itemsToScroll: 2 },
-        { width: 1450, itemsToShow: 3 },
-        { width: 1750, itemsToShow: 3 },
       ];
 
       const arrowLeft = () => {
@@ -27,7 +21,7 @@ const CarouselBox = () => {
         const pointer = type === consts.PREV ? arrowLeft() : arrowRight();
         return (
           <div className="arr">
-            <button className="arrows" onClick={onClick}>
+            <button className="arrows" onClick={onClick} disabled={isEdge}>
             {pointer}
           </button>
           </div>
@@ -47,12 +41,12 @@ const CarouselBox = () => {
       // autoPlaySpeed={15000}
       itemsToShow={1}
       breakPoints={breakPoints} >
-        <Item><img className="carousel-img" src='https://www.roznica.com.ua/images/bt/bt21.jpg' alt="Hello"></img></Item>
-        <Item><img className="carousel-img" src='https://www.roznica.com.ua/images/bt/bt20.jpg' alt="Hello"></img></Item>
-        <Item><img className="carousel-img" src='https://www.roznica.com.ua/images/bt/bt25.jpg' alt="Hello"></img></Item>
-        <Item><img className="carousel-img" src='https://www.roznica.com.ua/images/bt/bt22.jpg' alt="Hello"></img></Item>
-        <Item><img className="carousel-img" src='https://www.roznica.com.ua/images/bt/bt23.jpg' alt="Hello"></img></Item>
-        <Item><img className="carousel-img" src='https://www.roznica.com.ua/images/bt/bt16.jpg' alt="Hello"></img></Item>
+        <Item className="huresos"><img className="carousel-img" src='https://www.roznica.com.ua/images/bt/bt21.jpg' alt="Hello"></img></Item>
+        <Item className="huresos"><img className="carousel-img" src='https://www.roznica.com.ua/images/bt/bt20.jpg' alt="Hello"></img></Item>
+        <Item className="huresos"><img className="carousel-img" src='https://www.roznica.com.ua/images/bt/bt25.jpg' alt="Hello"></img></Item>
+        <Item className="huresos"><img className="carousel-img" src='https://www.roznica.com.ua/images/bt/bt22.jpg' alt="Hello"></img></Item>
+        <Item className="huresos"><img className="carousel-img" src='https://www.roznica.com.ua/images/bt/bt23.jpg' alt="Hello"></img></Item>
+        <Item className="huresos"><img className="carousel-img" src='https://www.roznica.com.ua/images/bt/bt16.jpg' alt="Hello"></img></Item>
       </Carousel>
       </div>
     );

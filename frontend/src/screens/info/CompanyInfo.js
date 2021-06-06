@@ -30,7 +30,7 @@ const CompanyInfo = () => {
                 <div className="shipping__text">
                     <span className="shipping__text-er">Наши приемущества
                     </span>
-                    <ul>
+                    <ul className="aftermb">
                         <li><span>Комплексное обслуживание систем видеонаблюдения – диагностика, профилактика и ремонт</span></li>
                         <li><span>Оперативный выезд специалиста на объект</span></li>
                         <li><span>Предоставление всей необходимой документации и отчетности </span></li>

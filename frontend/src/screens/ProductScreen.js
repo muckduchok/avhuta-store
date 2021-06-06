@@ -33,7 +33,7 @@ function ProductScreen(props) {
             <Link className="return-back" to="/">Вернуться назад</Link>
             <div className="product row">
 
-                <div className="product__image col-md-6">
+                <div className="product__image col">
                     <div className="product__image-img">
                         <img src={product.image} alt=""></img>
                     </div>

@@ -37,7 +37,7 @@ const ShippingInfo = () => {
             <p>Закажите на сайте – заберите в удобное время. </p>
 
             <button className="shipping__button">
-                <Link to="/contacts">Контакты</Link>
+                <Link to="/contacts-info">Контакты</Link>
             </button>
         </div>
     );

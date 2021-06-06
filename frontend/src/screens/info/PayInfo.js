@@ -18,7 +18,7 @@ const PayInfo = () => {
                     <li><span>Перед оплатой картой рекомендуем уточнить у менеджера наличие необходимого количества товара на складе</span></li>
                 </ul>
             </div>
-            <div className="shipping__text">
+            <div className="shipping__text aftermb">
                 <span className="shipping__text-er">Отправка наложенным платежом транспортной компанией Нова Пошта</span>
                 <ul>
                     <li><span><strong>Оплата:</strong> осуществляется при получении товара; к оборудованию прилагается товарный чек и гарантийный талон.</span></li>

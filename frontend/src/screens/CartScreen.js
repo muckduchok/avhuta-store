@@ -27,8 +27,8 @@ const CartScreen = (props) => {
     }
 
     return (
+        <div className="main">
         <div className="container">
-            <div className="cart-title">
             <h2>Корзина</h2>
             {
                 cartItems.length === 0 ? <MessageBox>
@@ -36,8 +36,8 @@ const CartScreen = (props) => {
                     </MessageBox>
                 :
                 (
-                    <div className="cart row top">
-                    <div className="col-8">
+                    <div className="cart row">
+                    <div className="col-md-8">
                         {
                             cartItems.map((item) => (
                                 <div key={item.product} className="cart__items">
@@ -73,7 +73,7 @@ const CartScreen = (props) => {
 
             </div>
 
-            <div className="col">
+            <div className="col-md-4">
                 <div className="cart__final">
                     <div className="cart__final-products">
                         <span className="cart__final-products-title">
@@ -105,7 +105,6 @@ const CartScreen = (props) => {
             }
         </div>
         </div>
-        
     );
 };
 

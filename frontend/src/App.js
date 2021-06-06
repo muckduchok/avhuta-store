@@ -5,7 +5,7 @@ import CartScreen from './screens/CartScreen';
 import { signout } from './actions/user.js';
 import { BrowserRouter, Link, Route } from 'react-router-dom';
 
-import './app.sass';
+import './sass/app.sass';
 import { useDispatch, useSelector } from 'react-redux';
 import SigninScreen from './screens/SigninScreen';
 import RegisterScreen from './screens/RegisterScreen';
@@ -70,6 +70,10 @@ function App() {
         {search ? (<Route render={({history}) =>
             <SearchBox history={history}></SearchBox>}>
           </Route>) : ('')}
+
+        <div className="header__area-teleph">
+          <a href="tel:+380668173846"><i className="bi bi-telephone"></i></a>
+        </div>
 
         <div className="header__area-controls">
     
@@ -255,6 +259,43 @@ function App() {
         <img className="footer__cards-img2" src="https://static-sl.insales.ru/files/1/1311/14550303/original/Group.svg" alt="logo"></img>
       </div>
   </footer>
+
+  <nav className="mobile-bottom-nav">
+	<div className="mobile-bottom-nav__item mobile-bottom-nav__item--active">
+		<div className="mobile-bottom-nav__item-content">
+      <Link to="/">
+			<i className="bi bi-house"></i>
+      </Link>
+		</div>		
+	</div>
+	<div className="mobile-bottom-nav__item">		
+		<div className="mobile-bottom-nav__item-content">
+      <Link to="/search/name">
+			<i className="bi bi-search"></i>
+      </Link>
+		</div>
+	</div>
+	<div className="mobile-bottom-nav__item">
+		<div className="mobile-bottom-nav__item-content">
+      <Link className="control-cart" to="/cart">
+			  <span className="icon-cart">
+          <i className="bi bi-cart3"></i>
+          {cartItems.length > 0 && (
+            <span className="control-bage-info">{cartItems.length}</span>
+          )}
+          </span>
+        </Link>
+		</div>		
+	</div>
+	
+	<div className="mobile-bottom-nav__item">
+		<div className="mobile-bottom-nav__item-content">
+      <Link to="/profile">
+			<i className="bi bi-person"></i>
+      </Link>
+		</div>		
+	</div>
+</nav>
 
 </div>
 

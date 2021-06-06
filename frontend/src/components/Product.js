@@ -10,7 +10,7 @@ export default function Product(props) {
     }
 
     return (
-        <div key={product._id} className="col col-md-3">
+        <div key={product._id} className="col">
         <div className="card">
         <div className="card__img">
             <Link className="card__img-image" to={`/product/${product._id}`}>

@@ -28,7 +28,7 @@ function HomeScreen(props) {
           ) : error ? (
             <MessageBox>{error}</MessageBox>
           ) : (
-            <div className="row">
+            <div className="cards row">
           {
             products.map((product) => (
               <Product {...props} key={product._id} product={product} />

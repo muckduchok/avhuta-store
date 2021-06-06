@@ -158,7 +158,7 @@ const OrderScreen = (props) => {
         </button>
     );
 
-    const goodUrl = `http://localhost:3000/order/${orderId}`;
+    const goodUrl = `http://localhost:3000/order/${orderId}?success=true`;
 
     return loading ? (<LoadingBox></LoadingBox>) :
     error ? (<MessageBox variant="danger">{error}</MessageBox>)
@@ -178,16 +178,11 @@ const OrderScreen = (props) => {
                     <span>Сумма и статус: </span>
                     <p>{order.itemsPrice} грн </p>
                     <div className="strongs">
-                    </div>
-                    {order.isPaid ? (
-                   <MessageBox className="messagebox" variant="success">
-                     <strong>Оплачено</strong>
+                    <MessageBox className="messagebox" variant="secondary">
+                     <strong>Ожидает подтверждения</strong>
                    </MessageBox>
-                 ) : (
-                   <MessageBox className="messagebox" variant="danger"><strong>Не оплачено</strong></MessageBox>
-                 )}
-                    
-                    
+                    </div>
+
                 </div>
                 <div className="orders__items-item">
                     <span>Способ оплаты: </span>
@@ -287,8 +282,7 @@ const OrderScreen = (props) => {
                                 </button>
                                     ) : (<MessageBox>С коро с вами свяжутся</MessageBox>)}
                                 </div>
-                            ) : null
-                        }
+                            ) : null }
                             </>
                         )}
                     </div>
