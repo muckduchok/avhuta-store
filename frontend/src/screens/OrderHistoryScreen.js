@@ -14,8 +14,8 @@ function OrderHistoryScreen(props) {
     }, [dispatch]);
 
     return (
-        <div className="container">
-            <h1>История заказов</h1>
+        <div className="container-sm">
+            <h2>История заказов</h2>
             {loading ? <LoadingBox></LoadingBox> : 
             error ? <MessageBox variant="danget">{error}</MessageBox> 
             : (
@@ -23,9 +23,9 @@ function OrderHistoryScreen(props) {
                     <thead>
                         <tr>
                         <th scope="col">Заказ</th>
-                        <th scope="col">Дата</th>
+                        <th className="table-price" scope="col">Дата</th>
                         <th scope="col">Сумма</th>
-                        <th scope="col">Оплачено</th>
+                        <th className="table-price" scope="col">Оплачено</th>
                         <th scope="col">Разное</th>
                         </tr>
                     </thead>
@@ -33,9 +33,9 @@ function OrderHistoryScreen(props) {
                         {orders.map((order) => (
                             <tr key={order._id}>
                                 <td>{order._id}</td>
-                                <td>{order.createdAt.substring(0, 10)}</td>
-                                <td>{order.itemsPrice.toFixed(2)}</td>
-                                <td>{order.isPaid ? order.paidAt.substring(0,10) : 'Нет'}</td>
+                                <td className="table-price">{order.createdAt.substring(0, 10)}</td>
+                                <td>{order.itemsPrice.toFixed()} грн</td>
+                                <td className="table-price">{order.isPaid ? order.paidAt.substring(0,10) : 'Нет'}</td>
                                 <td>
                                     <button type="button" className="small table-button" onClick={() => {props.history.push(`/order/${order._id}`)}}>Детали</button>
                                 </td>

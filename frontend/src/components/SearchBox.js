@@ -12,7 +12,7 @@ const SearchBox = (props) => {
         <div>
             <form className="search-input" onSubmit={submitDo}>
                 <div className="search-flex">
-                    <input className="form-control" type="text" name="q" id="q" placeholder="Поиск" onChange={(e) => setName(e.target.value)}></input>
+                    <input className="form-control" type="text" placeholder="Поиск" onChange={(e) => setName(e.target.value)}></input>
                     <button className="searching" type="submit">s</button>
                 </div>
                 

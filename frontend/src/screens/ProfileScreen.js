@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { detailsUser, updateUserProfile } from '../actions/user';
+import { Link } from 'react-router-dom';
+import { detailsUser, signout, updateUserProfile } from '../actions/user';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { USER_UPDATE_DETAILS_RESET } from '../constants/userConstants';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const ProfileScreen = () => {
     const userSignin = useSelector((state) => state.userSignin);
@@ -13,13 +19,16 @@ const ProfileScreen = () => {
     const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
     const { loading: loadingUpdate, error: errorUpdate, success: successUpdate} = userUpdateProfile;
     const dispatch = useDispatch();
-    
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+
+    const signoutDo = () => {
+        dispatch(signout());
+      };
 
     useEffect(() => {
         if (!user) {
@@ -44,6 +53,31 @@ const ProfileScreen = () => {
     return (
         <div className="container">
             <h2>Ваш профиль</h2>
+            
+            <Accordion className="accordions">
+                <AccordionSummary className="accordion" expandIcon={<ExpandMoreIcon />}>
+                <Typography>Личный кабинет</Typography>
+                </AccordionSummary>
+                <AccordionDetails className="accordion-next">
+                <div className="signin__button accordion__button">
+                    <button
+                        role="link"
+                        className=" accordion-button"
+                        type="button">
+                    <Link to="/orderhistory">История</Link> <br/>
+                    </button>
+                </div>
+                <div className="signin__button accordion__button">
+                    <button
+                        role="link"
+                        className="accordion-button"
+                        type="button">
+                    <Link to="#signout" onClick={signoutDo}>Выйти</Link>
+                    </button>
+                </div>
+                </AccordionDetails>
+            </Accordion>
+
             <form className="form signin" onSubmit={submitDo}>
             {loading ? (
           <LoadingBox></LoadingBox>

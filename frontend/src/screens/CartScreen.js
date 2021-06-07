@@ -73,7 +73,7 @@ const CartScreen = (props) => {
 
             </div>
 
-            <div className="col-md-4">
+            <div className="col-lg-4">
                 <div className="cart__final">
                     <div className="cart__final-products">
                         <span className="cart__final-products-title">

@@ -30,7 +30,7 @@ userRouter.post('/signin', expressAsyncHandler (async(req, res) => {
             return;
         }
     }
-    res.status(401).send({message: 'Нерпавильно емейл или пароль'});
+    res.status(401).send({message: 'Неправильный Email или пароль'});
 }));
 
 userRouter.post('/register', expressAsyncHandler(async(req, res) => {
