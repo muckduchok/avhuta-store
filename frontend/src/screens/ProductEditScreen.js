@@ -7,235 +7,251 @@ import MessageBox from '../components/MessageBox';
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstans';
 
 const ProductEditScreen = (props) => {
-    const productId = props.match.params.id;
-    const [name, setName] = useState('');
-    const [price, setPrice] = useState('');
-    const [image, setImage] = useState('');
-    const [category, setCategory] = useState('');
-    const [countInStock, setCountInStock] = useState('');
-    const [instock, setinstock] = useState('');
-    const [brand, setBrand] = useState('');
-    const [descr, setDescr] = useState('');
-    const [description, setDescription] = useState('');
-    const [characteristics, setСharacteristics] = useState('');
-    const dispatch = useDispatch();
+  const productId = props.match.params.id;
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState('');
+  const [image, setImage] = useState('');
+  const [category, setCategory] = useState('');
+  const [countInStock, setCountInStock] = useState('');
+  const [instock, setinstock] = useState('');
+  const [brand, setBrand] = useState('');
+  const [descr, setDescr] = useState('');
+  const [description, setDescription] = useState('');
+  const [characteristics, setСharacteristics] = useState('');
+  const dispatch = useDispatch();
 
-    const productDetails = useSelector((state) => state.productDetails);
-    const { loading, error, product} = productDetails;
+  const productDetails = useSelector((state) => state.productDetails);
+  const { loading, error, product } = productDetails;
 
-    const productUpdate = useSelector((state) => state.productUpdate);
-    const {loading: loadingUpdate, error: errorUpdate, success: successUpdate} = productUpdate;
-    
-    useEffect(() => {
-        if (successUpdate) {
-            dispatch({type: PRODUCT_UPDATE_RESET});
-            props.history.push('/products');
-        }
-        if (!product || (product._id !== productId || successUpdate)) {
-            dispatch({type: PRODUCT_UPDATE_RESET});
-            dispatch(detailsProduct(productId));
-        } else {
-            setName(product.name);
-            setPrice(product.price);
-            setImage(product.image);
-            setCategory(product.category);
-            setCountInStock(product.countInStock);
-            setinstock(product.instock);
-            setBrand(product.brand);
-            setDescr(product.descr);
-            setDescription(product.description);
-            setСharacteristics(product.characteristics);
-        }
-    }, [product, dispatch, productId, successUpdate, props.history ]);
+  const productUpdate = useSelector((state) => state.productUpdate);
+  const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = productUpdate;
 
-    const [loadingUpload, setLoadingUpload] = useState(false);
-    const [errorUpload, setErrorUpload] = useState('');
+  useEffect(() => {
+    if (successUpdate) {
+      dispatch({ type: PRODUCT_UPDATE_RESET });
+      props.history.push('/products');
+    }
+    if (!product || (product._id !== productId || successUpdate)) {
+      dispatch({ type: PRODUCT_UPDATE_RESET });
+      dispatch(detailsProduct(productId));
+    } else {
+      setName(product.name);
+      setPrice(product.price);
+      setImage(product.image);
+      setCategory(product.category);
+      setCountInStock(product.countInStock);
+      setinstock(product.instock);
+      setBrand(product.brand);
+      setDescr(product.descr);
+      setDescription(product.description);
+      setСharacteristics(product.characteristics);
+    }
+  }, [product, dispatch, productId, successUpdate, props.history]);
 
-    const submitDo = (e) => {
-        e.preventDefault();
+  const [loadingUpload, setLoadingUpload] = useState(false);
+  const [errorUpload, setErrorUpload] = useState('');
 
-        dispatch(updateProduct({_id: productId,
-        name, price, image, category, brand, countInStock, instock, descr, description, characteristics}));
-    };
-    const userSignin = useSelector((state) => state.userSignin);
-    const { userInfo } = userSignin;
+  const submitDo = (e) => {
+    e.preventDefault();
 
-    const uploadDo = async (e) => {
-        const file = e.target.files[0];
-        const bodyFormData = new FormData();
-        bodyFormData.append('image', file);
-        setLoadingUpload(true);
-        try {
-            const { data } = await Axios.post('/api/uploads', bodyFormData, {
-                headers: {'Content-Type':'multipart/form-data',
-                Authorization: `Bearer ${userInfo.token}`}
-            });
-            setImage(data);
-            setLoadingUpload(false);
-        } catch (error) {
-            setErrorUpload(error.message);
-            setLoadingUpload(false);
-        }
-    };
+    dispatch(updateProduct({
+      _id: productId,
+      name,
+      price,
+      image,
+      category,
+      brand,
+      countInStock,
+      instock,
+      descr,
+      description,
+      characteristics,
+    }));
+  };
+  const userSignin = useSelector((state) => state.userSignin);
+  const { userInfo } = userSignin;
 
-    return (
-        <div className="container">
-            <h2>Редактирование продукта: {productId}</h2>
-            
-            <form className="form signin" onSubmit={submitDo}>
-            {loadingUpdate && <LoadingBox></LoadingBox>}
-            {errorUpdate && <LoadingBox variant="danger">{error}</LoadingBox>}
-                {loading ? <LoadingBox></LoadingBox>
-                :
-                error ? <MessageBox variant="danger">{error}</MessageBox>
-                : <>
-                    <div className="signin__name">
-                        <label className="signin__name-label" htmlFor="name">Имя</label>
-                        <input
-                        className="signin__name-input"
-                        id="name"
-                        type="text"
-                        placeholder="Введите имя"
-                        value={name}
-                        required
-                        onChange={(e) => setName(e.target.value)} >
-                        </input>
-                    </div>
+  const uploadDo = async (e) => {
+    const file = e.target.files[0];
+    const bodyFormData = new FormData();
+    bodyFormData.append('image', file);
+    setLoadingUpload(true);
+    try {
+      const { data } = await Axios.post('/api/uploads', bodyFormData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      });
+      setImage(data);
+      setLoadingUpload(false);
+    } catch (error) {
+      setErrorUpload(error.message);
+      setLoadingUpload(false);
+    }
+  };
 
-                <div className="signin__login">
-                    <label className="signin__login-label" htmlFor="price">Цена</label>
-                    <input
-                     className="signin__login-input"
-                     id="price"
-                     type="number"
-                     required
-                     value={price}
-                     onChange={(e) => setPrice(e.target.value)} >
-                    </input>
+  return (
+    <div className="container">
+      <h2>
+        Редактирование продукта:
+        {productId}
+      </h2>
+
+      <form className="form signin" onSubmit={submitDo}>
+        {loadingUpdate && <LoadingBox />}
+        {errorUpdate && <LoadingBox variant="danger">{error}</LoadingBox>}
+        {loading ? <LoadingBox />
+          : error ? <MessageBox variant="danger">{error}</MessageBox>
+            : (
+              <>
+                <div className="signin__name">
+                  <label className="signin__name-label" htmlFor="name">Имя</label>
+                  <input
+                    className="signin__name-input"
+                    id="name"
+                    type="text"
+                    placeholder="Введите имя"
+                    value={name}
+                    required
+                    onChange={(e) => setName(e.target.value)}
+                  />
                 </div>
 
                 <div className="signin__login">
-                    <label className="signin__login-label" htmlFor="image">Картинка</label>
-                    <input
-                     className="signin__login-input"
-                     id="image"
-                     type="text"
-                     required
-                     value={image}
-                     onChange={(e) => setImage(e.target.value)} >
-                    </input>
-                    {loadingUpload && <MessageBox></MessageBox>}
-                    {errorUpload && <MessageBox variant="danger">{errorUpload}</MessageBox>}
+                  <label className="signin__login-label" htmlFor="price">Цена</label>
+                  <input
+                    className="signin__login-input"
+                    id="price"
+                    type="number"
+                    required
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                  />
                 </div>
 
                 <div className="signin__login">
-                <label className="signin__login-label" htmlFor="imageFile">Выберите картинку</label>
-                    <input
+                  <label className="signin__login-label" htmlFor="image">Картинка</label>
+                  <input
+                    className="signin__login-input"
+                    id="image"
+                    type="text"
+                    required
+                    value={image}
+                    onChange={(e) => setImage(e.target.value)}
+                  />
+                  {loadingUpload && <MessageBox />}
+                  {errorUpload && <MessageBox variant="danger">{errorUpload}</MessageBox>}
+                </div>
+
+                <div className="signin__login">
+                  <label className="signin__login-label" htmlFor="imageFile">Выберите картинку</label>
+                  <input
                     className="signin__login-input upload-image"
                     type="file"
                     id="imageFile"
                     label="Choose Image"
-                    onChange={uploadDo}>
-                    </input>
+                    onChange={uploadDo}
+                  />
                 </div>
 
                 <div className="signin__pass">
-                    <label className="signin__pass-label" htmlFor="category">Категория</label>
-                    <input 
-                     className="signin__pass-input"
-                     id="category"
-                     type="text"
-                     value={category}
-                     required
-                     onChange={(e) => setCategory(e.target.value)} >
-                    </input>
+                  <label className="signin__pass-label" htmlFor="category">Категория</label>
+                  <input
+                    className="signin__pass-input"
+                    id="category"
+                    type="text"
+                    value={category}
+                    required
+                    onChange={(e) => setCategory(e.target.value)}
+                  />
                 </div>
 
                 <div className="signin__repass">
-                    <label className="signin__repass-label" htmlFor="brand">Брэнд</label>
-                    <input 
-                     className="signin__repass-input"
-                     id="brand"
-                     type="text"
-                     value={brand}
-                     required
-                     onChange={(e) => setBrand(e.target.value)} >
-                    </input>
+                  <label className="signin__repass-label" htmlFor="brand">Брэнд</label>
+                  <input
+                    className="signin__repass-input"
+                    id="brand"
+                    type="text"
+                    value={brand}
+                    required
+                    onChange={(e) => setBrand(e.target.value)}
+                  />
                 </div>
 
                 <div className="signin__repass">
-                    <label className="signin__repass-label" htmlFor="countInStock">Количество</label>
-                    <input 
-                     className="signin__repass-input"
-                     id="countInStock"
-                     type="number"
-                     value={countInStock}
-                     required
-                     onChange={(e) => setCountInStock(e.target.value)} >
-                    </input>
+                  <label className="signin__repass-label" htmlFor="countInStock">Количество</label>
+                  <input
+                    className="signin__repass-input"
+                    id="countInStock"
+                    type="number"
+                    value={countInStock}
+                    required
+                    onChange={(e) => setCountInStock(e.target.value)}
+                  />
                 </div>
 
                 <div className="signin__repass">
-                    <label className="signin__repass-label" htmlFor="instock">Есть в наличии ?</label>
-                    <input 
-                     className="signin__repass-input"
-                     id="instock"
-                     type="boolean"
-                     value={instock}
-                     required
-                     onChange={(e) => setinstock(e.target.value)} >
-                    </input>
+                  <label className="signin__repass-label" htmlFor="instock">Есть в наличии ?</label>
+                  <input
+                    className="signin__repass-input"
+                    id="instock"
+                    type="boolean"
+                    value={instock}
+                    required
+                    onChange={(e) => setinstock(e.target.value)}
+                  />
                 </div>
 
                 <div className="signin__repass">
-                    <label className="signin__repass-label" htmlFor="descr">Короткое описание</label>
-                    <textarea
-                     className="signin__repass-input"
-                     id="descr"
-                     rows="3"
-                     type="text"
-                     value={descr}
-                     required
-                     onChange={(e) => setDescr(e.target.value)} >
-                    </textarea>
+                  <label className="signin__repass-label" htmlFor="descr">Короткое описание</label>
+                  <textarea
+                    className="signin__repass-input"
+                    id="descr"
+                    rows="3"
+                    type="text"
+                    value={descr}
+                    required
+                    onChange={(e) => setDescr(e.target.value)}
+                  />
                 </div>
 
                 <div className="signin__repass">
-                    <label className="signin__repass-label" htmlFor="description">Полное описание</label>
-                    <textarea
-                     className="signin__repass-input"
-                     id="description"
-                     rows="10"
-                     type="text"
-                     value={description}
-                     onChange={(e) => setDescription(e.target.value)} >
-                    </textarea>
+                  <label className="signin__repass-label" htmlFor="description">Полное описание</label>
+                  <textarea
+                    className="signin__repass-input"
+                    id="description"
+                    rows="10"
+                    type="text"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
                 </div>
 
                 <div className="signin__repass">
-                    <label className="signin__repass-label" htmlFor="characteristics">Характеристики</label>
-                    <textarea
-                     className="signin__repass-input"
-                     id="characteristics"
-                     rows="10"
-                     type="text"
-                     value={characteristics}
-                     onChange={(e) => setСharacteristics(e.target.value)} >
-                    </textarea>
+                  <label className="signin__repass-label" htmlFor="characteristics">Характеристики</label>
+                  <textarea
+                    className="signin__repass-input"
+                    id="characteristics"
+                    rows="10"
+                    type="text"
+                    value={characteristics}
+                    onChange={(e) => setСharacteristics(e.target.value)}
+                  />
                 </div>
 
                 <div className="signin__button">
-                    <label />
-                    <button type="submit" className="button-submit">
-                        Сохранить данные
-                    </button>
+                  <label />
+                  <button type="submit" className="button-submit">
+                    Сохранить данные
+                  </button>
                 </div>
-                </>
-                }
-            
-            </form>
-        </div>
-    );
+              </>
+            )}
+
+      </form>
+    </div>
+  );
 };
 
 export default ProductEditScreen;

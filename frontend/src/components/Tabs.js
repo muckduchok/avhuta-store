@@ -13,7 +13,9 @@ import Raiting from './Raiting';
 import { PRODUCT_REVIEW_CREATE_RESET } from '../constants/productConstans';
 
 function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+  const {
+    children, value, index, ...other
+  } = props;
   return (
     <div
       role="tabpanel"
@@ -44,10 +46,10 @@ function a11yProps(index) {
   };
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1,
-    backgroundColor: "theme.palette.background.paper",
+    backgroundColor: 'theme.palette.background.paper',
   },
 }));
 
@@ -59,11 +61,15 @@ export default function SimpleTabs(props) {
   const productId = props.match.params.id;
 
   const productDetails = useSelector((state) => state.productDetails);
-  const {error, loading, product} = productDetails;
+  const { error, loading, product } = productDetails;
   const userSignin = useSelector((state) => state.userSignin);
-  const {userInfo} = userSignin;
+  const { userInfo } = userSignin;
   const productReviewCreate = useSelector((state) => state.productReviewCreate);
-  const {error: errorReviewCreate, loading: loadingReviewCreate, success: successReviewCreate} = productReviewCreate;
+  const {
+    error: errorReviewCreate,
+    loading: loadingReviewCreate,
+    success: successReviewCreate,
+  } = productReviewCreate;
 
   const [raiting, setRaiting] = useState(0);
   const [comment, setComment] = useState('');
@@ -73,10 +79,10 @@ export default function SimpleTabs(props) {
       window.alert('Комментарий добавлен');
       setRaiting('');
       setComment('');
-      dispatch({type: PRODUCT_REVIEW_CREATE_RESET})
+      dispatch({ type: PRODUCT_REVIEW_CREATE_RESET });
     }
     dispatch(detailsProduct(productId));
-}, [dispatch, productId, successReviewCreate]);
+  }, [dispatch, productId, successReviewCreate]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -84,8 +90,8 @@ export default function SimpleTabs(props) {
 
   const submitDo = (e) => {
     e.preventDefault();
-    if(comment && raiting) {
-      dispatch(createReview(productId, {raiting, comment, name: userInfo.name}));
+    if (comment && raiting) {
+      dispatch(createReview(productId, { raiting, comment, name: userInfo.name }));
     } else {
       alert('Пожалуйста введите комментарий и рейтинг');
     }
@@ -102,87 +108,94 @@ export default function SimpleTabs(props) {
       </AppBar>
       <TabPanel className="tabs-app" value={value} index={0}>
         <div>
-        {loading ? (<LoadingBox></LoadingBox>) : error ? (<MessageBox>{error}</MessageBox>) :(
-          <pre className="pretabs">
-          {product.description}
-          </pre>
-        )}
+          {loading ? (<LoadingBox />) : error ? (<MessageBox>{error}</MessageBox>) : (
+            <pre className="pretabs">
+              {product.description}
+            </pre>
+          )}
         </div>
       </TabPanel>
       <TabPanel value={value} index={1}>
-      <div>
-        {loading ? (<LoadingBox></LoadingBox>) : error ? (<MessageBox>{error}</MessageBox>) :(
-          <pre className="pretabs">
-          {product.characteristics}
-          </pre>
-        )}
+        <div>
+          {loading ? (<LoadingBox />) : error ? (<MessageBox>{error}</MessageBox>) : (
+            <pre className="pretabs">
+              {product.characteristics}
+            </pre>
+          )}
         </div>
       </TabPanel>
       <TabPanel value={value} index={2}>
         <div>
           {loading ? (
-            <LoadingBox></LoadingBox>
+            <LoadingBox />
           ) : error ? (
             <MessageBox>{error}</MessageBox>
           ) : (
             <div className="comments">
-                {product.reviews.length === 0 && (<MessageBox>Еще нет отзывов</MessageBox>)}
-                <ul className="comments__ul">
-            {product.reviews.map((review) => (
-              <li className="comments__li" key={review._id}>
-                <strong>{review.name}</strong>
-                <Raiting raiting={review.raiting} caption=' '></Raiting>
-                <p> {review.createdAt.substring(0, 10)}</p>
-                <p> {review.comment}</p>
-              </li>
-            ))}
-            
-          </ul>
+              {product.reviews.length === 0 && (<MessageBox>Еще нет отзывов</MessageBox>)}
+              <ul className="comments__ul">
+                {product.reviews.map((review) => (
+                  <li className="comments__li" key={review._id}>
+                    <strong>{review.name}</strong>
+                    <Raiting raiting={review.raiting} caption=" " />
+                    <p>
+                      {' '}
+                      {review.createdAt.substring(0, 10)}
+                    </p>
+                    <p>
+                      {' '}
+                      {review.comment}
+                    </p>
+                  </li>
+                ))}
+
+              </ul>
             </div>
-            )}
-            {userInfo ? (
-              <form className="form-comment signin" onSubmit={submitDo}>
-                  <h4>Напишите свой отзыв</h4>
-                  <div className="form-comment__raiting">
-                    <label htmlFor="raiting"></label>
-                    <select
-                      className="form-comment__raiting-select"
-                      id="raiting"
-                      value={raiting}
-                      onChange={(e) => setRaiting(e.target.value)}>
-                      <option value="">Выбрать рейтинг...</option>
-                      <option value="1">1 - звезда</option>
-                      <option value="2">2 - звезды</option>
-                      <option value="3">3 - звезды</option>
-                      <option value="4">4 - звезды</option>
-                      <option value="5">5 - звезд</option>
-                    </select>
+          )}
+          {userInfo ? (
+            <form className="form-comment signin" onSubmit={submitDo}>
+              <h4>Напишите свой отзыв</h4>
+              <div className="form-comment__raiting">
+                <label htmlFor="raiting" />
+                <select
+                  className="form-comment__raiting-select"
+                  id="raiting"
+                  value={raiting}
+                  onChange={(e) => setRaiting(e.target.value)}
+                >
+                  <option value="">Выбрать рейтинг...</option>
+                  <option value="1">1 - звезда</option>
+                  <option value="2">2 - звезды</option>
+                  <option value="3">3 - звезды</option>
+                  <option value="4">4 - звезды</option>
+                  <option value="5">5 - звезд</option>
+                </select>
+              </div>
+
+              <div className="form-comment__textarea signin__name">
+                <label className="signin__name-label" htmlFor="comment">Комментарий</label>
+                <textarea
+                  className="signin__name-input"
+                  id="comment"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                />
+                <div className="signin__button">
+                  <label />
+                  <button className="button-submit" type="submit">
+                    Отправить
+                  </button>
                 </div>
 
-                <div className="form-comment__textarea signin__name">
-                  <label className="signin__name-label" htmlFor="comment">Комментарий</label>
-                  <textarea
-                    className="signin__name-input"
-                    id="comment"
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}>
-                  </textarea>
-                  <div className="signin__button">
-                    <label/>
-                      <button className="button-submit" type="submit">
-                      Отправить
-                    </button>
-                  </div>
-                    
-                </div>
-                <div>
-                  {loadingReviewCreate && <LoadingBox></LoadingBox>}
-                  {errorReviewCreate && <MessageBox variant="danger">{errorReviewCreate}</MessageBox>}
-                </div>
-              </form>
-            ) : (
-              <MessageBox>Вы не зарегистрированы</MessageBox>
-            )}
+              </div>
+              <div>
+                {loadingReviewCreate && <LoadingBox />}
+                {errorReviewCreate && <MessageBox variant="danger">{errorReviewCreate}</MessageBox>}
+              </div>
+            </form>
+          ) : (
+            <MessageBox>Вы не зарегистрированы</MessageBox>
+          )}
         </div>
       </TabPanel>
     </div>

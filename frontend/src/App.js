@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Link, Route } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import CartScreen from './screens/CartScreen';
-import { signout } from './actions/user.js';
-import { BrowserRouter, Link, Route } from 'react-router-dom';
+import { signout } from './actions/user';
 
 import './sass/app.sass';
-import { useDispatch, useSelector } from 'react-redux';
 import SigninScreen from './screens/SigninScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ShippingScreen from './screens/ShippingScreen';
@@ -35,7 +35,7 @@ import PlaceOrderScreen from './screens/PlaceOrderScreen';
 function App() {
   const productCategoryList = useSelector((state) => state.categoryList);
   const { loading: loadingCategories, error: errorCategories, categories } = productCategoryList;
-  const cart = useSelector(state => state.cart);
+  const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
@@ -51,77 +51,86 @@ function App() {
 
   return (
     <BrowserRouter>
-    <div className="main">
-    <header className="header container">
-      <div className="header__content">
+      <div className="main">
+        <header className="header container">
+          <div className="header__content">
 
-        <div className="header__area-burger">
-          <button onClick={() => setSidebarIsOpen(true)} type="button" className="button-burger open-sidebar">
-            <span className="icon-burger"><i className="bi bi-list-nested"></i></span>
-            <span className="icon-text">Меню</span>
-          </button>
-        </div>
-        {!search ? (<Link to="/"className="header__area-logo">
-          <span className="header__logo">
-              <img src="https://static-sl.insales.ru/files/1/2933/14871413/original/Group_8.svg" alt="logo"></img>
-          </span>
-        </Link>) : ('')}
-        
-        {search ? (<Route render={({history}) =>
-            <SearchBox history={history}></SearchBox>}>
-          </Route>) : ('')}
+            <div className="header__area-burger">
+              <button onClick={() => setSidebarIsOpen(true)} type="button" className="button-burger open-sidebar">
+                <span className="icon-burger"><i className="bi bi-list-nested" /></span>
+                <span className="icon-text">Меню</span>
+              </button>
+            </div>
+            {!search ? (
+              <Link to="/" className="header__area-logo">
+                <span className="header__logo">
+                  <img src="https://static-sl.insales.ru/files/1/2933/14871413/original/Group_8.svg" alt="logo" />
+                </span>
+              </Link>
+            ) : ('')}
 
-        <div className="header__area-teleph">
-          <a href="tel:+380668173846"><i className="bi bi-telephone"></i></a>
-        </div>
+            {search ? (
+              <Route render={({ history }) => <SearchBox history={history} />} />
+            ) : ('')}
 
-        <div className="header__area-controls">
-    
-          <div className="control-search">
-          
-            <button type="button" className="search-btn">
-              {!search ? (<span onClick={() => setSearch(true)} className="icon-search _show"><i className="bi bi-search"></i></span>) : (
-                  <span onClick={() => setSearch(false)} className="icon-close _hide"><i className="bi bi-x-circle"></i></span>
-              
-              )}
-            </button>
+            <div className="header__area-teleph">
+              <a href="tel:+380668173846">
+                <i className="bi bi-telephone" />
+              </a>
+            </div>
 
-            {
+            <div className="header__area-controls">
+              <div className="control-search">
+                <button type="button" className="search-btn">
+                  {!search ? (
+                    <span onClick={() => setSearch(true)} className="icon-search _show">
+                      <i className="bi bi-search" />
+                    </span>
+                  ) : (
+                    <span onClick={() => setSearch(false)} className="icon-close _hide">
+                      <i className="bi bi-x-circle" />
+                    </span>
+                  )}
+                </button>
+                {
               userInfo ? (
                 <div className="dropdown">
                   <Link to="/#" className="control-profile">
-                  <span type="button" className="icon-user" >
-                    <i className="bi bi-person-fill"></i>
-                    <i className="bi bi-caret-down"></i>
+                    <span type="button" className="icon-user">
+                      <i className="bi bi-person-fill" />
+                      <i className="bi bi-caret-down" />
                     </span>
                   </Link>
                   <ul className="dropdown-content">
                     <li>
-                    <Link to="/profile">Профиль</Link>
+                      <Link to="/profile">Профиль</Link>
                     </li>
                     <li>
-                    <Link to="/orderhistory">История</Link>
+                      <Link to="/orderhistory">История</Link>
                     </li>
                     <li>
-                    <Link to="#signout" onClick={signoutDo}>Выйти</Link>
+                      <Link to="#signout" onClick={signoutDo}>Выйти</Link>
                     </li>
                   </ul>
-                  
-                </div>
-                
-              ) :
-              (
-                <Link to="/signin" className="control-profile">
-                <span className="icon-user"><i className="bi bi-person"></i></span>
-                </Link>                
-              )}
 
-              {userInfo && userInfo.isAdmin && (
+                </div>
+
+              )
+                : (
+                  <Link to="/signin" className="control-profile">
+                    <span className="icon-user"><i className="bi bi-person" /></span>
+                  </Link>
+                )
+}
+
+                {userInfo && userInfo.isAdmin && (
                 <div className="dropdown">
                   <div>
                     <span className="icon-admin">
-                    <i className="bi bi-person-circle"></i> {' '}
-                    <i className="bi bi-caret-down caret-admin"></i>
+                      <i className="bi bi-person-circle" />
+                      {' '}
+                      {' '}
+                      <i className="bi bi-caret-down caret-admin" />
                     </span>
                     <ul className="dropdown-content">
                       <li>
@@ -136,170 +145,172 @@ function App() {
                     </ul>
                   </div>
                 </div>
-              )}
-
-            <Link to="/cart" className="control-cart">
-              <span className="icon-cart">
-                <i className="bi bi-cart3"></i>
-                {cartItems.length > 0 && (
-                  <span className="control-bage">{cartItems.length}</span>
                 )}
-                </span>
-            </Link>
+
+                <Link to="/cart" className="control-cart">
+                  <span className="icon-cart">
+                    <i className="bi bi-cart3" />
+                    {cartItems.length > 0 && (
+                    <span className="control-bage">{cartItems.length}</span>
+                    )}
+                  </span>
+                </Link>
+              </div>
+            </div>
           </div>
-        </div>
+        </header>
+
+        <aside id="style-1" className={sidebarIsOpen ? 'open' : ''}>
+          <ul className="categories">
+            <li>
+              <strong>Каталог</strong>
+
+              <button className="close-sidebar" type="button" onClick={() => setSidebarIsOpen(false)}>
+                <i className="bi bi-x-circle-fill" />
+              </button>
+            </li>
+            <hr />
+            {loadingCategories ? (
+              <LoadingBox />
+            ) : errorCategories ? (
+              <MessageBox variant="danger">
+                {errorCategories}
+              </MessageBox>
+            ) : (
+              categories.map((c) => (
+                <li className="categories-li" key={c}>
+                  <Link to={`/search/category/${c}`} onClick={() => setSidebarIsOpen(false)}>{c}</Link>
+                </li>
+              ))
+            )}
+          </ul>
+          <hr />
+          <ul>
+            <li>
+              <strong className="popravka">Навигация</strong>
+            </li>
+            <li>
+              <Link to="/search/name" onClick={() => setSidebarIsOpen(false)}>Все категории</Link>
+            </li>
+            <li>
+              <Link to="/company-info" onClick={() => setSidebarIsOpen(false)}>О компании</Link>
+            </li>
+            <li>
+              <Link to="/contacts-info" onClick={() => setSidebarIsOpen(false)}>Контакты</Link>
+            </li>
+            <li>
+              <Link to="/shipping-info" onClick={() => setSidebarIsOpen(false)}>Доставка</Link>
+            </li>
+            <li>
+              <Link to="/pay-info" onClick={() => setSidebarIsOpen(false)}>Оплата</Link>
+            </li>
+          </ul>
+          <hr />
+          <div className="contacts">
+            <h5>Контакты</h5>
+            <a className="phone" href="tel:+380668173846">+380 66 817 3846</a>
+            <span>Украина, г.Сумы</span>
+          </div>
+        </aside>
+
+        <AdminRouter path="/products" component={ProductListScreen} exact />
+        <AdminRouter path="/products/pageNumber/:pageNumber" component={ProductListScreen} exact />
+
+        <Route path="/shipping-info" component={ShippingInfo} />
+        <Route path="/pay-info" component={PayInfo} />
+        <Route path="/contacts-info" component={ContactsInfo} />
+        <Route path="/company-info" component={CompanyInfo} />
+
+        <PrivateRoute path="/profile" component={ProfileScreen} />
+        <Route path="/orderhistory" component={OrderHistoryScreen} />
+        <Route path="/order/:id" component={OrderScreen} />
+        <Route path="/placeorder" component={PlaceOrderScreen} />
+        <Route path="/payment" component={PaymentScreen} />
+        <Route path="/shipping" component={ShippingScreen} />
+        <Route path="/register" component={RegisterScreen} />
+        <Route path="/signin" component={SigninScreen} />
+        <Route path="/cart/:id?" component={CartScreen} />
+        <Route path="/product/:id" component={ProductScreen} exact />
+        <Route
+          path="/search/name/:name?"
+          component={SearchScreen}
+          exact
+        />
+        <Route
+          path="/search/category/:category"
+          component={SearchScreen}
+          exact
+        />
+        <Route
+          path="/search/category/:category/name/:name"
+          component={SearchScreen}
+          exact
+        />
+        <Route
+          path="/search/category/:category/name/:name/min/:min/max/:max/raiting/:raiting/order/:order/pageNumber/:pageNumber"
+          component={SearchScreen}
+          exact
+        />
+
+        <AdminRouter path="/product/:id/edit" component={ProductEditScreen} exact />
+        <AdminRouter path="/orderlist" component={OrderListScreen} />
+        <AdminRouter path="/users" component={UserListScreen} />
+        <AdminRouter path="/user/:id/edit" component={UserEditScreen} />
+        <Route path="/" component={HomeScreen} exact />
+
+        <footer className="footer container">
+          <div className="footer__spans">
+            <span className="footer__spans-phone">+380 66 817 3846</span>
+            <span className="footer__spans-city">г. Сумы</span>
+          </div>
+          <div className="footer__logo">
+            <img className="footer__logo-img" src="https://static-sl.insales.ru/files/1/2933/14871413/original/Group_8.svg" alt="logo" />
+          </div>
+          <div className="footer__cards">
+            <img className="footer__cards-img1" src="https://static-sl.insales.ru/files/1/1305/14550297/original/Visa.svg" alt="logo" />
+            <img className="footer__cards-img2" src="https://static-sl.insales.ru/files/1/1311/14550303/original/Group.svg" alt="logo" />
+          </div>
+        </footer>
+
+        <nav className="mobile-bottom-nav">
+          <div className="mobile-bottom-nav__item mobile-bottom-nav__item--active">
+            <div className="mobile-bottom-nav__item-content">
+              <Link to="/">
+                <i className="bi bi-house" />
+              </Link>
+            </div>
+          </div>
+          <div className="mobile-bottom-nav__item">
+            <div className="mobile-bottom-nav__item-content">
+              <Link to="/search/name">
+                <i className="bi bi-search" />
+              </Link>
+            </div>
+          </div>
+          <div className="mobile-bottom-nav__item">
+            <div className="mobile-bottom-nav__item-content">
+              <Link className="control-cart" to="/cart">
+                <span className="icon-cart">
+                  <i className="bi bi-cart3" />
+                  {cartItems.length > 0 && (
+                  <span className="control-bage-info">{cartItems.length}</span>
+                  )}
+                </span>
+              </Link>
+            </div>
+          </div>
+          <div className="mobile-bottom-nav__item">
+            <div className="mobile-bottom-nav__item-content">
+              <Link to="/profile">
+                <i className="bi bi-person" />
+              </Link>
+            </div>
+          </div>
+        </nav>
+
       </div>
-    </header>
 
-    <aside id="style-1" className={sidebarIsOpen ? 'open' : ''}>
-      <ul className="categories">
-        <li>
-          <strong>Каталог</strong>
-          
-          <button className="close-sidebar" type="button" onClick={() => setSidebarIsOpen(false)}><i className="bi bi-x-circle-fill"></i></button>
-        </li>
-        <hr/>
-        {loadingCategories ? (
-          <LoadingBox></LoadingBox>
-          ) : errorCategories ? (
-          <MessageBox variant="danger">{errorCategories}
-          </MessageBox>
-          ) : (
-            categories.map((c) => (
-              <li className="categories-li" key={c}>
-                <Link to={`/search/category/${c}`} onClick={() => setSidebarIsOpen(false)}>{c}</Link>
-              </li>
-            ))
-        )}
-      </ul>
-      <hr/>
-      <ul>
-        <li>
-          <strong className="popravka">Навигация</strong>
-        </li>
-        <li>
-        <Link to="/search/name" onClick={() => setSidebarIsOpen(false)}>Все категории</Link>
-        </li>
-        <li>
-        <Link to="/company-info" onClick={() => setSidebarIsOpen(false)}>О компании</Link>
-        </li>
-        <li>
-        <Link to="/contacts-info" onClick={() => setSidebarIsOpen(false)}>Контакты</Link>
-        </li>
-        <li>
-          <Link to="/shipping-info" onClick={() => setSidebarIsOpen(false)}>Доставка</Link>
-        </li>
-        <li>
-        <Link to="/pay-info" onClick={() => setSidebarIsOpen(false)}>Оплата</Link>
-        </li>
-      </ul>
-      <hr/>
-      <div className="contacts">
-        <h5>Контакты</h5>
-        <a className="phone" href="tel:+380668173846">+380 66 817 3846</a>
-        <span>Украина, г.Сумы</span>
-      </div>
-    </aside>
-    
-    <AdminRouter path="/products" component={ProductListScreen} exact></AdminRouter>
-    <AdminRouter path="/products/pageNumber/:pageNumber" component={ProductListScreen} exact></AdminRouter>
-
-    <Route path="/shipping-info" component={ShippingInfo}></Route>
-    <Route path="/pay-info" component={PayInfo}></Route>
-    <Route path="/contacts-info" component={ContactsInfo}></Route>
-    <Route path="/company-info" component={CompanyInfo}></Route>
-
-    <PrivateRoute path="/profile" component={ProfileScreen}></PrivateRoute>
-    <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
-    <Route path="/order/:id" component={OrderScreen}></Route>
-    <Route path="/placeorder" component={PlaceOrderScreen}></Route>
-    <Route path="/payment" component={PaymentScreen}></Route>
-    <Route path="/shipping" component={ShippingScreen}></Route>
-    <Route path="/register" component={RegisterScreen}></Route>
-    <Route path="/signin" component={SigninScreen}></Route>
-    <Route path="/cart/:id?" component={CartScreen}></Route>
-    <Route path="/product/:id" component={ProductScreen} exact></Route>
-    <Route
-            path="/search/name/:name?"
-            component={SearchScreen}
-            exact
-          ></Route>
-          <Route
-            path="/search/category/:category"
-            component={SearchScreen}
-            exact
-          ></Route>
-          <Route
-            path="/search/category/:category/name/:name"
-            component={SearchScreen}
-            exact
-          ></Route>
-          <Route
-            path="/search/category/:category/name/:name/min/:min/max/:max/raiting/:raiting/order/:order/pageNumber/:pageNumber"
-            component={SearchScreen}
-            exact
-          ></Route>
-
-    <AdminRouter path="/product/:id/edit" component={ProductEditScreen} exact></AdminRouter>
-    <AdminRouter path="/orderlist" component={OrderListScreen}></AdminRouter>
-    <AdminRouter path="/users" component={UserListScreen}></AdminRouter>
-    <AdminRouter path="/user/:id/edit" component={UserEditScreen}></AdminRouter>
-    <Route path="/" component={HomeScreen} exact ></Route>
-
-    <footer className="footer container">
-      <div className="footer__spans">
-        <span className="footer__spans-phone">+380 66 817 3846</span>
-        <span className="footer__spans-city">г. Сумы</span>
-      </div>
-      <div className="footer__logo">
-        <img className="footer__logo-img" src="https://static-sl.insales.ru/files/1/2933/14871413/original/Group_8.svg" alt="logo"></img>
-      </div>
-      <div className="footer__cards">
-        <img className="footer__cards-img1" src="https://static-sl.insales.ru/files/1/1305/14550297/original/Visa.svg" alt="logo"></img>
-        <img className="footer__cards-img2" src="https://static-sl.insales.ru/files/1/1311/14550303/original/Group.svg" alt="logo"></img>
-      </div>
-  </footer>
-
-  <nav className="mobile-bottom-nav">
-	<div className="mobile-bottom-nav__item mobile-bottom-nav__item--active">
-		<div className="mobile-bottom-nav__item-content">
-      <Link to="/">
-			<i className="bi bi-house"></i>
-      </Link>
-		</div>		
-	</div>
-	<div className="mobile-bottom-nav__item">		
-		<div className="mobile-bottom-nav__item-content">
-      <Link to="/search/name">
-			<i className="bi bi-search"></i>
-      </Link>
-		</div>
-	</div>
-	<div className="mobile-bottom-nav__item">
-		<div className="mobile-bottom-nav__item-content">
-      <Link className="control-cart" to="/cart">
-			  <span className="icon-cart">
-          <i className="bi bi-cart3"></i>
-          {cartItems.length > 0 && (
-            <span className="control-bage-info">{cartItems.length}</span>
-          )}
-          </span>
-        </Link>
-		</div>		
-	</div>
-	
-	<div className="mobile-bottom-nav__item">
-		<div className="mobile-bottom-nav__item-content">
-      <Link to="/profile">
-			<i className="bi bi-person"></i>
-      </Link>
-		</div>		
-	</div>
-</nav>
-
-</div>
-
-</BrowserRouter>
+    </BrowserRouter>
   );
 }
 
